@@ -1,19 +1,33 @@
 package graph;
 
-import java.util.ArrayList;
+import java.util.Objects;
 
 public class Node {
-    private int id;
     private String name;
-    private ArrayList<Edge> edges = new ArrayList<>();
 
-    public Node(int id, String name) {
-        this.id = id;
+    public Node(String name) {
         this.name = name;
     }
 
-    public void addEdge(Edge e) {
-        this.edges.add(e);
+    public String getName() {
+        return name;
     }
 
+    @Override
+    public String toString() {
+        return this.name;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Node node = (Node) o;
+        return Objects.equals(name, node.name);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(name);
+    }
 }
