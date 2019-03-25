@@ -11,14 +11,11 @@ import java.util.Set;
 
 public class BFS extends Algorithm {
 
-    private Node root;
-
     public BFS(Graph graph, String root) {
-        super(graph);
-        this.root = graph.getNode(root);
+        super(graph, root);
     }
 
-    public Set run() {
+    public Set traverse() {
         Set<Node> visited = new LinkedHashSet<>();
         Queue<Node> toVisit = new LinkedList<>();
         toVisit.add(this.root);

@@ -9,14 +9,11 @@ import java.util.*;
 
 public class DFS extends Algorithm {
 
-    private Node root;
-
     public DFS(Graph graph, String root) {
-        super(graph);
-        this.root = graph.getNode(root);
+        super(graph, root);
     }
 
-    public Set run() {
+    public Set traverse() {
         Set<Node> visited = new LinkedHashSet<>();
         Stack<Node> toVisit = new Stack<>();
         toVisit.push(this.root);

@@ -8,6 +8,13 @@ public class Edge {
     public Edge(Node src, Node dest) {
         this.srcNode = src;
         this.destNode = dest;
+        this.value = 1;
+    }
+
+    public Edge(Node src, Node dest, double value) {
+        this.srcNode = src;
+        this.destNode = dest;
+        this.value = value;
     }
 
     public Node getSrc() {
@@ -16,5 +23,9 @@ public class Edge {
 
     public Node getDest() {
         return this.destNode;
+    }
+
+    public double getValue() {
+        return value;
     }
 }

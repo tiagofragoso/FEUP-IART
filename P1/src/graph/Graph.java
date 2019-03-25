@@ -5,12 +5,15 @@ import java.util.ArrayList;
 
 public class Graph {
     private HashMap<String, Node> nodes = new HashMap<>();
+    private HashMap<Node, ArrayList<Edge>> edges = new HashMap<>();
 
     public HashMap<Node, ArrayList<Edge>> getEdges() {
         return edges;
     }
 
-    private HashMap<Node, ArrayList<Edge>> edges = new HashMap<>();
+    public HashMap<String, Node> getNodes() {
+        return nodes;
+    }
 
     public Node addNode(String name) {
         final Node n = new Node(name);
@@ -24,6 +27,10 @@ public class Graph {
     }
 
     public void addEdge(String src, String dest) {
+        this.addEdge(src, dest, 1);
+    }
+
+    public void addEdge(String src, String dest, double value) {
         Node srcNode = nodes.get(src);
         Node destNode = nodes.get(dest);
         if (srcNode == null) {
@@ -32,7 +39,7 @@ public class Graph {
         if (destNode == null) {
             destNode = this.addNode(dest);
         }
-        this.edges.get(srcNode).add(new Edge(srcNode, destNode));
+        this.edges.get(srcNode).add(new Edge(srcNode, destNode, value));
     }
 
     public void printEdges() {
