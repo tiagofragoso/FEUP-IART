@@ -1,10 +1,10 @@
 import algorithms.*;
+import game.Map;
 import graph.Graph;
-import graph.Node;
 
 public class Test {
     public void doSomething() {
-        Graph graph = new Graph();
+        /*Graph graph = new Graph();
         graph.addEdge("Oradea", "Zerind", 71);
         graph.addEdge("Oradea", "Sibiu", 151);
         graph.addEdge("Zerind", "Arad", 75);
@@ -29,8 +29,9 @@ public class Test {
         graph.addEdge("Iasi", "Neamt", 87);
         graph.addEdge("Hirsova", "Eforie", 86);
 
-        System.out.println(new AStar(graph, "Arad").run("Bucharest").toString());
+        System.out.println(new AStar(graph, "Arad").run("Bucharest").toString());*/
 
+        (new Map(Map.l1)).print();
     }
 
     public static void main(String[] args) {

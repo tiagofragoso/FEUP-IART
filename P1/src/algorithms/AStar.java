@@ -57,10 +57,9 @@ public class AStar extends Algorithm {
         ArrayList<Node> sol = new ArrayList<>();
         sol.add(current);
         while (current != this.root) {
-            sol.add(current.getParent());
+            sol.add(0, current.getParent());
             current = current.getParent();
         }
-        Collections.reverse(sol);
         return sol;
     }
 
