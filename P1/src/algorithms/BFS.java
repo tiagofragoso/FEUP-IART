@@ -1,13 +1,13 @@
 package algorithms;
 
+import game.GameNode;
 import graph.Edge;
 import graph.Graph;
 import graph.Node;
+import sun.swing.BakedArrayList;
 
-import java.util.LinkedHashSet;
-import java.util.LinkedList;
-import java.util.Queue;
-import java.util.Set;
+import java.lang.reflect.Array;
+import java.util.*;
 
 public class BFS extends Algorithm {
 
@@ -15,20 +15,19 @@ public class BFS extends Algorithm {
         super(graph, root);
     }
 
-    public Set traverse() {
-        Set<Node> visited = new LinkedHashSet<>();
-        Queue<Node> toVisit = new LinkedList<>();
-        toVisit.add(this.root);
+    public static ArrayList<Node> run(GameNode root) {
+        Queue<GameNode> toVisit = new LinkedList<>();
+        toVisit.add(root);
         while(!toVisit.isEmpty()) {
-            Node node = toVisit.poll();
-            visited.add(node);
-            for (Edge e: this.graph.getEdges().get(node)) {
-                Node child = e.getDest();
-                if (!visited.contains(child)) {
+            GameNode node = toVisit.poll();
+            for (GameNode child: node.getChildren()) {
+                child.setParent(node);
+                if (child.isSolution())
+                    return Algorithm.solution(child);
+                else
                     toVisit.add(child);
-                }
             }
         }
-        return visited;
+        return null;
     }
 }
