@@ -1,13 +1,15 @@
 package game;
 
+import algorithms.BFS;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 
 public class Map {
     private boolean[][] walls = new boolean[16][16];
-    private Element[] targets = new Element[5];
-    private Element[] robots = new Element[5];
+    private ArrayList<Element> targets = new ArrayList<>(5);
+    private ArrayList<Element> robots = new ArrayList<>(5);
     private HashMap<Element.Color, Integer> colorMap = new HashMap<>();
     public Map(String[][] matrix) {
         for (boolean[] row: walls)
@@ -44,17 +46,27 @@ public class Map {
                         colorMap.put(c, index);
                     }
                     if (el.charAt(0) == 'R') {
-                        robots[index] = e;
+                        robots.add(index, e);
                     } else  if (el.charAt(0) == 'T') {
-                        targets[index] = e;
+                        targets.add(index, e);
                     }
 
                 }
             }
         }
+        this.robots.trimToSize();
+        this.targets.trimToSize();
     }
 
-   public void print() {
+    public boolean[][] getWalls() {
+        return walls;
+    }
+
+    public ArrayList<Element> getTargets() {
+        return targets;
+    }
+
+    public void print() {
         int coordY = 16;
        for (boolean[] row: this.walls) {
             System.out.print(" " + coordY);
@@ -84,6 +96,14 @@ public class Map {
        //print targets
    }
 
+   public void runAlgo(String algo) {
+        switch (algo) {
+            case "BFS":
+                System.out.println(BFS.run(new GameNode(this, this.robots, 0)));
+                break;
+        }
+   }
+
     public static String[][] l1 = new String[][]{
             {"W", "W", "", "", "", "", "", "", "", "", "", "", "", "", "W", "W"},
             {"W", "", "", "W", "W", "W", "W", "W", "W", "W", "W", "W", "W", "", "", "W"},
@@ -100,6 +120,25 @@ public class Map {
             {"", "W", "W", "TR", "", "", "", "", "", "", "", "", "", "W", "W", ""},
             {"", "", "W", "W", "", "", "", "", "", "", "", "", "W", "W", "", ""},
             {"W", "", "", "W", "W", "W", "W", "W", "W", "W", "W", "W", "W", "", "", "W"},
-            {"W", "W", "", "", "", "", "", "", "", "", "", "", "", "", "W", "W"},
+            {"W", "W", "", "", "", "", "", "", "", "", "", "", "", "", "W", "W"}
+    };
+
+    public static String[][] l2 = new String[][]{
+            {"", "", "", "", "", "", "", "", "", "", "", "", "", "", "", ""},
+            {"", "", "", "", "", "", "", "", "", "", "", "", "", "", "", ""},
+            {"", "", "", "", "", "", "", "", "", "", "", "", "", "", "", ""},
+            {"", "", "", "", "", "", "", "", "", "", "", "", "", "", "", ""},
+            {"", "", "", "", "", "", "", "", "", "", "", "", "", "", "", ""},
+            {"", "", "", "", "", "", "", "", "", "", "", "", "", "", "", ""},
+            {"", "", "", "", "", "", "", "", "", "", "", "", "", "", "", ""},
+            {"", "", "", "", "", "", "", "", "", "", "", "", "", "", "", ""},
+            {"", "", "", "", "", "", "", "", "", "", "", "", "", "W", "W", "W"},
+            {"TR", "", "", "", "", "", "", "", "", "", "", "", "", "", "", ""},
+            {"", "", "", "", "", "", "", "", "", "", "", "", "", "", "", ""},
+            {"", "", "", "", "", "", "", "", "", "", "", "", "", "", "", ""},
+            {"", "", "", "", "", "", "", "", "", "", "", "", "", "", "", ""},
+            {"", "", "", "", "", "", "", "", "", "", "", "", "", "", "", ""},
+            {"", "", "", "", "", "", "", "", "", "", "", "", "", "", "", ""},
+            {"", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "RR"}
     };
 }
