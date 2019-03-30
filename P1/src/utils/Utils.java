@@ -13,5 +13,12 @@ public class Utils {
         return clone;
     }
 
+    public static boolean[][] deepCloneBlocking(boolean[][] arr) {
+        boolean[][] clone = new boolean[16][16];
+        for (int i = 0; i < clone.length; i++) {
+            clone[i] = arr[i].clone();
+        }
+        return clone;
+    }
 
 }

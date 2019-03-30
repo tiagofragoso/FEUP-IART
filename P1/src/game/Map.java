@@ -2,6 +2,7 @@ package game;
 
 import algorithms.BFS;
 import algorithms.DFS;
+import graph.Node;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -68,7 +69,7 @@ public class Map {
     }
 
     public void print() {
-        int coordY = 16;
+        int coordY = 1;
        for (boolean[] row: this.walls) {
             System.out.print(" " + coordY);
             if (coordY > 9) {
@@ -76,7 +77,7 @@ public class Map {
             } else {
                 System.out.print("  ");
             }
-            coordY--;
+            coordY++;
            for (boolean el: row) {
                if (el)
                    System.out.print(" X ");
@@ -89,7 +90,7 @@ public class Map {
        char coordX = 'A';
        for (int i = 0; i < 16; i++) {
            System.out.print(" " + coordX + " ");
-           coordX++;
+          coordX++;
 
        }
        System.out.print("\n");
@@ -98,13 +99,22 @@ public class Map {
    }
 
    public void runAlgo(String algo) {
+       ArrayList<Node> sol = null;
         switch (algo) {
             case "BFS":
-                System.out.println(BFS.run(new GameNode(this, this.robots, 0)));
+                System.out.println("Using BFS:");
+                sol = BFS.run(new GameNode(this, this.robots, 0));
                 break;
             case "DFS":
-                System.out.println(DFS.run(new GameNode(this, this.robots, 0), 25));
+                System.out.println("Using DFS:");
+                sol = DFS.run(new GameNode(this, this.robots, 0), 50);
                 break;
+        }
+        if (sol != null) {
+            System.out.println(sol);
+            System.out.println("Move count: " + sol.size());
+        } else {
+            System.out.println("Couldn't find solution");
         }
    }
 

@@ -62,7 +62,7 @@ public class GameNode extends Node {
     }
 
     public ArrayList<GameNode> getChildren() {
-        boolean[][] matrix = this.map.getWalls().clone();
+        boolean[][] matrix = Utils.deepCloneBlocking(this.map.getWalls());
         for (Element r: robots) {
             matrix[r.getY()][r.getX()] = true;
         }

@@ -48,7 +48,7 @@ public class Element implements Cloneable {
 
     @Override
     public Object clone() {
-        Element clone = null;
+        Element clone;
         try {
             clone = (Element) super.clone();
             clone.setX(this.x);
@@ -62,6 +62,6 @@ public class Element implements Cloneable {
 
     @Override
     public String toString() {
-        return this.color.toString() + ":" + this.x + ";" + this.y;
+        return this.color.toString() + ":" + (char) (this.x + 'A') + (this.y + 1);
     }
 }
