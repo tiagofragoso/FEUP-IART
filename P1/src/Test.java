@@ -3,7 +3,7 @@ import game.Map;
 public class Test {
     public void doSomething() {
         Map m = new Map(Map.l4);
-        m.print();
+        m.print(m.getRobots());
         m.runAlgo("BFS");
         m.runAlgo("DFS");
     }

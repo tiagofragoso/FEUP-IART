@@ -14,7 +14,7 @@ public class Map {
     private ArrayList<Element> robots;
 
     public Map(String[][] matrix) {
-        for (boolean[] row: walls)
+        for (boolean[] row : walls)
             Arrays.fill(row, false);
 
         Element[] robots = new Element[5];
@@ -25,7 +25,7 @@ public class Map {
                 final String el = matrix[i][j];
                 if (el.equals("W"))
                     walls[i][j] = true;
-                else if (!el.equals("")){
+                else if (!el.equals("")) {
                     Element.Color c = null;
                     switch (el.charAt(1)) {
                         case 'B':
@@ -53,7 +53,7 @@ public class Map {
                     }
                     if (el.charAt(0) == 'R') {
                         robots[index] = e;
-                    } else  if (el.charAt(0) == 'T') {
+                    } else if (el.charAt(0) == 'T') {
                         targets[index] = e;
                     }
 
@@ -61,7 +61,7 @@ public class Map {
             }
         }
         this.robots = new ArrayList<>();
-        for (Element e: robots) {
+        for (Element e : robots) {
             if (e != null)
                 this.robots.add(e);
         }
@@ -78,39 +78,70 @@ public class Map {
         return targets;
     }
 
-    public void print() {
-        int coordY = 1;
-       for (boolean[] row: this.walls) {
-            System.out.print(" " + coordY);
-            if (coordY > 9) {
+    public ArrayList<Element> getRobots() {
+        return robots;
+    }
+
+    public void print(ArrayList<Element> robots) {
+        for (int y = 0; y < this.walls.length; y++) {
+            System.out.print(" " + (y+1));
+            if (y+1 > 9) {
                 System.out.print(" ");
             } else {
                 System.out.print("  ");
             }
-            coordY++;
-           for (boolean el: row) {
-               if (el)
-                   System.out.print(" X ");
-               else System.out.print("   ");
-           }
-           System.out.print("\n");
-       }
 
-       System.out.print("\n    ");
-       char coordX = 'A';
-       for (int i = 0; i < 16; i++) {
-           System.out.print(" " + coordX + " ");
-          coordX++;
+            for (int x = 0; x < this.walls[y].length; x++) {
+                if (this.walls[y][x])
+                    System.out.print(" X  ");
+                else if (printRobots(x, y, robots)) {
+                    break;
+                } else if (printTargets(x, y)) {
+                    break;
+                } else {
+                    System.out.print("    ");
+                }
+            }
+            System.out.print("\n\n");
+        }
 
-       }
-       System.out.print("\n");
-       System.out.println("Robots :"); //print robots
-       //print targets
-   }
+        System.out.print("    ");
+        char coordX = 'A';
+        for (int i = 0; i < 16; i++) {
+            System.out.print(" " + coordX + "  ");
+            coordX++;
 
-   public void runAlgo(String algo) {
-       ArrayList<Node> sol = null;
-       long start = System.currentTimeMillis();
+        }
+        System.out.print("\n");
+        System.out.println("Robots :"); //print robots
+        //print targets
+    }
+
+    public boolean printRobots(int x, int y, ArrayList<Element> robots) {
+        for (Element robot : robots) {
+            if (robot != null && robot.getX() == x && robot.getY() == y) {
+                System.out.print(" R" + robot.getColorInitial() + " ");
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    public boolean printTargets(int x, int y) {
+        for (Element target : this.targets) {
+            if (target != null && target.getX() == x && target.getY() == y ) {
+                System.out.print(" T" + target.getColorInitial() + " ");
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    public void runAlgo(String algo) {
+        ArrayList<Node> sol = null;
+        long start = System.currentTimeMillis();
         switch (algo) {
             case "BFS":
                 System.out.println("Using BFS:");
@@ -125,11 +156,11 @@ public class Map {
         if (sol != null) {
             System.out.println(sol);
             System.out.println("Move count: " + sol.size());
-            System.out.println("Elapsed time: " + (end-start) + "ms");
+            System.out.println("Elapsed time: " + (end - start) + "ms");
         } else {
             System.out.println("Couldn't find solution");
         }
-   }
+    }
 
     public static String[][] l1 = new String[][]{
             {"W", "W", "W", "W", "W", "W", "W", "W", "W", "W", "W", "W", "W", "W", "W", "W"},
@@ -170,40 +201,40 @@ public class Map {
     };
 
     public static String[][] l3 = new String[][]{
-        {"W", "W", "TR", "", "", "", "W", "W", "W", "W", "W", "W", "W", "W", "W", "W"},
-        {"", "", "", "", "", "", "W", "", "", "", "RR", "", "", "W", "", "W"},
-        {"", "", "", "", "", "", "", "", "", "W", "", "", "", "W", "", "W"},
-        {"", "", "W", "W", "W", "W", "", "", "", "", "", "W", "W", "W", "", "W"},
-        {"", "", "W", "W", "", "", "", "", "", "", "", "", "W", "W", "", "W"},
-        {"", "W", "W", "", "", "", "", "W", "W", "", "", "", "W", "W", "", "W"},
-        {"", "W", "", "", "", "", "", "", "", "", "", "", "W", "W", "", "W"},
-        {"", "", "", "", "", "", "", "W", "W", "", "W", "W", "W", "W", "", "W"},
-        {"", "W", "", "", "", "", "", "W", "W", "", "W", "W", "W", "W", "", "W"},
-        {"", "W", "W", "W", "W", "", "", "", "", "", "", "", "", "W", "", "W"},
-        {"", "W", "", "", "W", "", "", "W", "W", "", "", "", "", "W", "", "W"},
-        {"", "W", "", "", "W", "", "", "W", "W", "", "", "", "", "W", "", "W"},
-        {"", "W", "W", "W", "W", "", "", "W", "W", "W", "W", "", "", "W", "", "W"},
-        {"", "", "W", "", "", "", "", "", "", "", "W", "", "", "W", "W", "W"},
-        {"", "", "", "", "W", "W", "W", "", "", "W", "W", "", "", "", "", "W"},
-        {"W", "W", "W", "W", "W", "W", "W", "", "", "", "", "", "", "", "", "W"}
+            {"W", "W", "TR", "", "", "", "W", "W", "W", "W", "W", "W", "W", "W", "W", "W"},
+            {"", "", "", "", "", "", "W", "", "", "", "RR", "", "", "W", "", "W"},
+            {"", "", "", "", "", "", "", "", "", "W", "", "", "", "W", "", "W"},
+            {"", "", "W", "W", "W", "W", "", "", "", "", "", "W", "W", "W", "", "W"},
+            {"", "", "W", "W", "", "", "", "", "", "", "", "", "W", "W", "", "W"},
+            {"", "W", "W", "", "", "", "", "W", "W", "", "", "", "W", "W", "", "W"},
+            {"", "W", "", "", "", "", "", "", "", "", "", "", "W", "W", "", "W"},
+            {"", "", "", "", "", "", "", "W", "W", "", "W", "W", "W", "W", "", "W"},
+            {"", "W", "", "", "", "", "", "W", "W", "", "W", "W", "W", "W", "", "W"},
+            {"", "W", "W", "W", "W", "", "", "", "", "", "", "", "", "W", "", "W"},
+            {"", "W", "", "", "W", "", "", "W", "W", "", "", "", "", "W", "", "W"},
+            {"", "W", "", "", "W", "", "", "W", "W", "", "", "", "", "W", "", "W"},
+            {"", "W", "W", "W", "W", "", "", "W", "W", "W", "W", "", "", "W", "", "W"},
+            {"", "", "W", "", "", "", "", "", "", "", "W", "", "", "W", "W", "W"},
+            {"", "", "", "", "W", "W", "W", "", "", "W", "W", "", "", "", "", "W"},
+            {"W", "W", "W", "W", "W", "W", "W", "", "", "", "", "", "", "", "", "W"}
     };
 
     public static String[][] l4 = new String[][]{
-        {"W", "W", "W", "W", "W", "W", "W", "W", "W", "W", "W", "W", "W", "W", "W", "W"},
-        {"W", "", "W", "W", "W", "", "W", "W", "W", "W", "", "W", "W", "W", "", "W"},
-        {"W", "", "W", "W", "W", "", "", "W", "W", "", "", "W", "W", "W", "", "W"},
-        {"W", "", "", "", "W", "W", "", "", "", "", "W", "W", "", "", "", "W"},
-        {"W", "W", "W", "", "W", "W", "W", "W", "W", "W", "W", "W", "", "W", "W", "W"},
-        {"W", "W", "W", "", "", "", "W", "W", "W", "W", "", "", "", "W", "W", "W"},
-        {"W", "", "W", "W", "W", "W", "W", "W", "W", "W", "W", "W", "W", "W", "W", "W"},
-        {"W", "", "", "", "W", "W", "W", "W", "W", "W", "W", "W", "", "", "", "W"},
-        {"W", "W", "W", "", "", "", "W", "W", "W", "W", "", "", "", "W", "W", "W"},
-        {"W", "W", "W", "W", "W", "W", "W", "", "", "W", "W", "W", "W", "W", "W", "W"},
-        {"W", "W", "W", "W", "W", "W", "W", "", "", "W", "W", "W", "", "", "W", "W"},
-        {"W", "W", "", "", "", "", "", "RB", "", "", "", "", "", "", "W", "W"},
-        {"W", "", "RR", "", "W", "W", "W", "W", "W", "", "", "", "", "", "W", "W"},
-        {"W", "", "", "W", "W", "W", "W", "W", "W", "W", "", "", "W", "", "W", "W"},
-        {"W", "W", "W", "W", "W", "W", "W", "W", "W", "", "", "", "", "TR", "W", "W"},
-        {"W", "W", "W", "W", "W", "W", "W", "W", "W", "W", "W", "W", "W", "W", "W", "W"}
+            {"W", "W", "W", "W", "W", "W", "W", "W", "W", "W", "W", "W", "W", "W", "W", "W"},
+            {"W", "", "W", "W", "W", "", "W", "W", "W", "W", "", "W", "W", "W", "", "W"},
+            {"W", "", "W", "W", "W", "", "", "W", "W", "", "", "W", "W", "W", "", "W"},
+            {"W", "", "", "", "W", "W", "", "", "", "", "W", "W", "", "", "", "W"},
+            {"W", "W", "W", "", "W", "W", "W", "W", "W", "W", "W", "W", "", "W", "W", "W"},
+            {"W", "W", "W", "", "", "", "W", "W", "W", "W", "", "", "", "W", "W", "W"},
+            {"W", "", "W", "W", "W", "W", "W", "W", "W", "W", "W", "W", "W", "W", "W", "W"},
+            {"W", "", "", "", "W", "W", "W", "W", "W", "W", "W", "W", "", "", "", "W"},
+            {"W", "W", "W", "", "", "", "W", "W", "W", "W", "", "", "", "W", "W", "W"},
+            {"W", "W", "W", "W", "W", "W", "W", "", "", "W", "W", "W", "W", "W", "W", "W"},
+            {"W", "W", "W", "W", "W", "W", "W", "", "", "W", "W", "W", "", "", "W", "W"},
+            {"W", "W", "", "", "", "", "", "RB", "", "", "", "", "", "", "W", "W"},
+            {"W", "", "RR", "", "W", "W", "W", "W", "W", "", "", "", "", "", "W", "W"},
+            {"W", "", "", "W", "W", "W", "W", "W", "W", "W", "", "", "W", "", "W", "W"},
+            {"W", "W", "W", "W", "W", "W", "W", "W", "W", "", "", "", "", "TR", "W", "W"},
+            {"W", "W", "W", "W", "W", "W", "W", "W", "W", "W", "W", "W", "W", "W", "W", "W"}
     };
 }
