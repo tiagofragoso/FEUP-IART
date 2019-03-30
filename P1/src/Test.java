@@ -2,7 +2,7 @@ import game.Map;
 
 public class Test {
     public void doSomething() {
-        Map m = new Map(Map.l1);
+        Map m = new Map(Map.l4);
         m.print();
         m.runAlgo("BFS");
         m.runAlgo("DFS");

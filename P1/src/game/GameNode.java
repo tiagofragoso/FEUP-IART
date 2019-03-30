@@ -84,6 +84,7 @@ public class GameNode extends Node {
     public boolean isSolution() {
         ArrayList<Element> targets = this.map.getTargets();
         for (int i = 0; i < targets.size(); i++) {
+            if (targets.get(i) == null) continue;
             if (!this.robots.get(i).sameLocationAs(targets.get(i)))
                 return false;
         }

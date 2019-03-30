@@ -10,12 +10,15 @@ import java.util.HashMap;
 
 public class Map {
     private boolean[][] walls = new boolean[16][16];
-    private ArrayList<Element> targets = new ArrayList<>(5);
-    private ArrayList<Element> robots = new ArrayList<>(5);
-    private HashMap<Element.Color, Integer> colorMap = new HashMap<>();
+    private ArrayList<Element> targets;
+    private ArrayList<Element> robots;
+
     public Map(String[][] matrix) {
         for (boolean[] row: walls)
             Arrays.fill(row, false);
+
+        Element[] robots = new Element[5];
+        Element[] targets = new Element[5];
 
         for (int i = 0; i < matrix.length; i++) {
             for (int j = 0; j < matrix[i].length; j++) {
@@ -42,22 +45,29 @@ public class Map {
                             break;
                     }
                     Element e = new Element(j, i, c);
+                    HashMap<Element.Color, Integer> colorMap = new HashMap<>();
                     Integer index = colorMap.get(c);
                     if (index == null) {
                         index = colorMap.size();
                         colorMap.put(c, index);
                     }
                     if (el.charAt(0) == 'R') {
-                        robots.add(index, e);
+                        robots[index] = e;
                     } else  if (el.charAt(0) == 'T') {
-                        targets.add(index, e);
+                        targets[index] = e;
                     }
 
                 }
             }
         }
-        this.robots.trimToSize();
-        this.targets.trimToSize();
+        this.robots = new ArrayList<>();
+        for (Element e: robots) {
+            if (e != null)
+                this.robots.add(e);
+        }
+        this.targets = new ArrayList<>(Arrays.asList(targets));
+        System.out.println(this.robots);
+        System.out.println(this.targets);
     }
 
     public boolean[][] getWalls() {
@@ -100,19 +110,22 @@ public class Map {
 
    public void runAlgo(String algo) {
        ArrayList<Node> sol = null;
+       long start = System.currentTimeMillis();
         switch (algo) {
             case "BFS":
                 System.out.println("Using BFS:");
                 sol = BFS.run(new GameNode(this, this.robots, 0));
                 break;
             case "DFS":
-                System.out.println("Using DFS:");
+                System.out.println("Using IDDFS:");
                 sol = DFS.run(new GameNode(this, this.robots, 0), 50);
                 break;
         }
+        long end = System.currentTimeMillis();
         if (sol != null) {
             System.out.println(sol);
             System.out.println("Move count: " + sol.size());
+            System.out.println("Elapsed time: " + (end-start) + "ms");
         } else {
             System.out.println("Couldn't find solution");
         }
