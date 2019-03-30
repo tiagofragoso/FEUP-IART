@@ -31,7 +31,7 @@ public class Test {
 
         System.out.println(new AStar(graph, "Arad").run("Bucharest").toString());*/
 
-        (new Map(Map.l2)).runAlgo("BFS");
+        (new Map(Map.l2)).runAlgo("DFS");
     }
 
     public static void main(String[] args) {

@@ -1,6 +1,7 @@
 package game;
 
 import algorithms.BFS;
+import algorithms.DFS;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -100,6 +101,9 @@ public class Map {
         switch (algo) {
             case "BFS":
                 System.out.println(BFS.run(new GameNode(this, this.robots, 0)));
+                break;
+            case "DFS":
+                System.out.println(DFS.run(new GameNode(this, this.robots, 0), 25));
                 break;
         }
    }

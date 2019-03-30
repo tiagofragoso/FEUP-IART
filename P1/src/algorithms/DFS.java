@@ -1,11 +1,10 @@
 package algorithms;
 
-import graph.Edge;
+import game.GameNode;
 import graph.Graph;
 import graph.Node;
 
-
-import java.util.*;
+import java.util.ArrayList;
 
 public class DFS extends Algorithm {
 
@@ -13,22 +12,31 @@ public class DFS extends Algorithm {
         super(graph, root);
     }
 
-    public Set traverse() {
-        Set<Node> visited = new LinkedHashSet<>();
-        Stack<Node> toVisit = new Stack<>();
-        toVisit.push(this.root);
-        while(!toVisit.isEmpty()) {
-            Node node = toVisit.pop();
-            if (!visited.contains(node)) {
-                visited.add(node);
-                final ArrayList<Edge> edges = this.graph.getEdges().get(node);
-                for (int i = edges.size() - 1; i >= 0; i--) { //traversing in reverse to get the same result as recursive DFS
-                    final Edge e = edges.get(i);
-                    Node child = e.getDest();
-                    toVisit.push(child);
-                }
+    private static ArrayList<Node> dls(GameNode current, int depth) {
+        if (current.isSolution())
+            return Algorithm.solution(current);
+
+        if (depth <= 0)
+            return null;
+
+        ArrayList<GameNode> children = current.getChildren();
+        ArrayList<Node> sol;
+        for (GameNode child: children) {
+            child.setParent(current);
+            if ((sol = dls(child, depth-1)) != null) {
+                return sol;
             }
         }
-        return visited;
+        return null;
+    }
+
+    public static ArrayList<Node> run(GameNode root, int maxDepth) {
+        ArrayList<Node> sol;
+        for (int depth = 0; depth <= maxDepth; depth++) {
+            if ((sol = dls(root, depth)) != null) {
+                return sol;
+            }
+        }
+        return null;
     }
 }
