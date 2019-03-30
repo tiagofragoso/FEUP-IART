@@ -1,6 +1,7 @@
 package game;
 
 import algorithms.BFS;
+import algorithms.DFS;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -67,14 +68,31 @@ public class Map {
     }
 
     public void print() {
+        int coordY = 16;
        for (boolean[] row: this.walls) {
+            System.out.print(" " + coordY);
+            if (coordY > 9) {
+                System.out.print(" ");
+            } else {
+                System.out.print("  ");
+            }
+            coordY--;
            for (boolean el: row) {
                if (el)
                    System.out.print(" X ");
-               else System.out.print(" B ");
+               else System.out.print("   ");
            }
            System.out.print("\n");
        }
+
+       System.out.print("\n    ");
+       char coordX = 'A';
+       for (int i = 0; i < 16; i++) {
+           System.out.print(" " + coordX + " ");
+           coordX++;
+
+       }
+       System.out.print("\n");
        System.out.println("Robots :"); //print robots
        //print targets
    }
@@ -83,6 +101,9 @@ public class Map {
         switch (algo) {
             case "BFS":
                 System.out.println(BFS.run(new GameNode(this, this.robots, 0)));
+                break;
+            case "DFS":
+                System.out.println(DFS.run(new GameNode(this, this.robots, 0), 25));
                 break;
         }
    }
