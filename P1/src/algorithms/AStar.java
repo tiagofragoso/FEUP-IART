@@ -1,5 +1,7 @@
+/*
 package algorithms;
 
+import game.GameNode;
 import graph.Edge;
 import graph.Graph;
 import graph.Node;
@@ -11,8 +13,8 @@ public class AStar extends Algorithm {
 
     private Node destNode;
 
-    public AStar(Graph graph, String root) {
-        super(graph, root);
+    public AStar(GameNode root) {
+        super(root);
     }
 
     public ArrayList run(String dest) {
@@ -94,3 +96,4 @@ public class AStar extends Algorithm {
     }
 
 }
+*/

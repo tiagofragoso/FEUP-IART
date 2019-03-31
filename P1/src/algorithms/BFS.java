@@ -1,6 +1,7 @@
 package algorithms;
 
 import game.GameNode;
+import game.Solution;
 import graph.Edge;
 import graph.Graph;
 import graph.Node;
@@ -11,23 +12,32 @@ import java.util.*;
 
 public class BFS extends Algorithm {
 
-    public BFS(Graph graph, String root) {
-        super(graph, root);
+    private HashMap<GameNode, Integer> visited = new HashMap<>();
+
+    public BFS(GameNode root) {
+        super(root);
     }
 
-    public static ArrayList<Node> run(GameNode root) {
+    public void run() {
+        this.startAlgo();
         Queue<GameNode> toVisit = new LinkedList<>();
-        toVisit.add(root);
+        toVisit.add(this.root);
         while(!toVisit.isEmpty()) {
             GameNode node = toVisit.poll();
+            visited.put(node, node.getDepth());
+            this.expandedNodes++;
             for (GameNode child: node.getChildren()) {
-                child.setParent(node);
-                if (child.isSolution())
-                    return Algorithm.solution(child);
-                else
-                    toVisit.add(child);
+                if (visited.getOrDefault(child, Integer.MAX_VALUE) >= child.getDepth()) {
+                    child.setParent(node);
+                    if (child.isSolution()) {
+                        this.solution(child);
+                        return;
+                    }
+                    else
+                        toVisit.add(child);
+                }
             }
         }
-        return null;
+        this.solution(null);
     }
 }

@@ -1,5 +1,7 @@
 package game;
 
+import java.util.Objects;
+
 public class Element implements Cloneable {
     enum Color {RED, BLUE, YELLOW, GREEN, SILVER}
 
@@ -67,5 +69,20 @@ public class Element implements Cloneable {
 
     public char getColorInitial() {
         return this.color.toString().charAt(0);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Element element = (Element) o;
+        return x == element.x &&
+                y == element.y &&
+                color == element.color;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(x, y, color);
     }
 }

@@ -1,5 +1,6 @@
 package game;
 
+import algorithms.Algorithm;
 import algorithms.BFS;
 import algorithms.DFS;
 import graph.Node;
@@ -12,6 +13,7 @@ public class Map {
     private boolean[][] walls = new boolean[16][16];
     private ArrayList<Element> targets;
     private ArrayList<Element> robots;
+    private GameNode startNode;
 
     public Map(String[][] matrix) {
         for (boolean[] row : walls)
@@ -67,8 +69,7 @@ public class Map {
                 this.robots.add(e);
         }
         this.targets = new ArrayList<>(Arrays.asList(targets));
-        System.out.println(this.robots);
-        System.out.println(this.targets);
+        this.startNode = new GameNode(this, this.robots, 0);
 
     }
 
@@ -113,6 +114,7 @@ public class Map {
         System.out.print("\n");
         System.out.println("Robots :"); //print robots
         //print targets
+
     }
 
     public boolean printRobots(int x, int y, ArrayList<Element> robots) {
@@ -138,26 +140,25 @@ public class Map {
     }
 
     public void runAlgo(String algo) {
-        ArrayList<Node> sol = null;
-        long start = System.currentTimeMillis();
+        Algorithm algorithm;
         switch (algo) {
             case "BFS":
                 System.out.println("Using BFS:");
-                sol = BFS.run(new GameNode(this, this.robots, 0));
+                algorithm = new BFS(this.startNode);
+                ((BFS) algorithm).run();
                 break;
             case "DFS":
                 System.out.println("Using IDDFS:");
-                sol = DFS.run(new GameNode(this, this.robots, 0), 50);
+                algorithm = new DFS(this.startNode);
+                ((DFS) algorithm).run(25);
                 break;
+            default:
+                System.out.println("Invalid algorithm");
+                return;
         }
-        long end = System.currentTimeMillis();
-        if (sol != null) {
-            System.out.println(sol);
-            System.out.println("Move count: " + sol.size());
-            System.out.println("Elapsed time: " + (end - start) + "ms");
-        } else {
-            System.out.println("Couldn't find solution");
-        }
+
+        algorithm.printSolution();
+
     }
 
     public static String[][] l1 = new String[][]{

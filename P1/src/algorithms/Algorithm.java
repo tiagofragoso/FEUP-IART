@@ -1,29 +1,30 @@
 package algorithms;
 
 import game.GameNode;
-import graph.Graph;
-import graph.Node;
+import game.Solution;
 
-import java.util.ArrayList;
 
-class Algorithm {
-    private boolean debug = false;
-    Node root;
-    Graph graph;
+public class Algorithm {
+    GameNode root;
+    boolean debug = false;
+    int expandedNodes = 0;
+    private Solution sol;
+    private long startTime;
+    private long endTime;
 
-    Algorithm(Graph graph, String root) {
-        this.graph = graph;
-        this.root = graph.getNode(root);
+    Algorithm(GameNode root) { this.root = root; }
+
+    void startAlgo() {
+        this.startTime = System.currentTimeMillis();
     }
 
-    static ArrayList<Node> solution(GameNode dest) {
-        Node current = dest;
-        ArrayList<Node> sol = new ArrayList<>();
-        sol.add(current);
-        while (current.getParent() != null) {
-            sol.add(0, current.getParent());
-            current = current.getParent();
-        }
-        return sol;
+    void solution(GameNode dest) {
+        this.endTime = System.currentTimeMillis();
+        long runTime = endTime - startTime;
+        this.sol = new Solution(dest, runTime, expandedNodes);
+    }
+
+    public void printSolution() {
+        this.sol.print();
     }
 }

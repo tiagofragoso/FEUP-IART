@@ -5,11 +5,13 @@ import java.util.Objects;
 public class Node implements Comparable<Node>{
     private String name;
     private double totalDistance = Double.POSITIVE_INFINITY;
+    private int depth;
     private Node parent = null;
 
     public Node(String name) {
         this.name = name;
     }
+    public Node(int depth) { this.depth = depth; }
 
     public String getName() {
         return name;
@@ -22,6 +24,8 @@ public class Node implements Comparable<Node>{
     public Node getParent() {
         return parent;
     }
+
+    public int getDepth() { return depth; }
 
     public void setTotalDistance(double totalDistance) {
         this.totalDistance = totalDistance;
@@ -45,16 +49,16 @@ public class Node implements Comparable<Node>{
         return this.name;
     }
 
-    @Override
+   /* @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Node node = (Node) o;
         return Objects.equals(name, node.name);
-    }
+    }*/
 
-    @Override
+   /* @Override
     public int hashCode() {
         return Objects.hash(name);
-    }
+    }*/
 }
