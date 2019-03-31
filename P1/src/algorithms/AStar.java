@@ -50,7 +50,7 @@ public class AStar extends Algorithm {
         this.solution(null);
     }
 
-    private double calculateDistance(GameNode node){
+    public static double calculateDistance(GameNode node){
         double p = 0;
         Map m = node.getMap();
         HashMap<Element.Color, Integer> colorMap = m.getColorMap();

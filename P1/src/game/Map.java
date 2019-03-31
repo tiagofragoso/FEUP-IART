@@ -1,9 +1,6 @@
 package game;
 
-import algorithms.AStar;
-import algorithms.Algorithm;
-import algorithms.BFS;
-import algorithms.DFS;
+import algorithms.*;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -160,6 +157,11 @@ public class Map {
                 System.out.println("Using A*:");
                 algorithm = new AStar(this.startNode);
                 ((AStar) algorithm).run();
+                break;
+            case "Greedy":
+                System.out.println("Using Greedy:");
+                algorithm = new Greedy(this.startNode);
+                ((Greedy) algorithm).run();
                 break;
             default:
                 System.out.println("Invalid algorithm");
