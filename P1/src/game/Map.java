@@ -68,10 +68,10 @@ public class Map {
         }
         this.targets = new ArrayList<>(Arrays.asList(targets));
         int[][][] moves = new int[5][][];
-        for (Element t: this.targets) {
+        /*for (Element t: this.targets) {
             if (t != null)
                 moves[this.colorMap.get(t.getColor())] = BFS.precomputeMoves(this, new Node(t.getX(), t.getY(), 0));
-        }
+        }*/
         precomputedMoves = new ArrayList<>(Arrays.asList(moves));
         this.startNode = new GameNode(this, this.robots, 0);
     }
