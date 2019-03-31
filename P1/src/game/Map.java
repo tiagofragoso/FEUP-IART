@@ -20,6 +20,8 @@ public class Map {
         Element[] robots = new Element[5];
         Element[] targets = new Element[5];
 
+        HashMap<Element.Color, Integer> colorMap = new HashMap<>();
+
         for (int i = 0; i < matrix.length; i++) {
             for (int j = 0; j < matrix[i].length; j++) {
                 final String el = matrix[i][j];
@@ -45,7 +47,6 @@ public class Map {
                             break;
                     }
                     Element e = new Element(j, i, c);
-                    HashMap<Element.Color, Integer> colorMap = new HashMap<>();
                     Integer index = colorMap.get(c);
                     if (index == null) {
                         index = colorMap.size();
@@ -68,6 +69,7 @@ public class Map {
         this.targets = new ArrayList<>(Arrays.asList(targets));
         System.out.println(this.robots);
         System.out.println(this.targets);
+
     }
 
     public boolean[][] getWalls() {
@@ -251,7 +253,7 @@ public class Map {
         {"", "", "", "", "W", "", "", "", "", "", "W", "W", "", "", "", ""},
         {"W", "W", "", "", "W", "", "", "", "", "", "", "W", "", "", "W", "W"},
         {"W", "W", "", "", "W", "", "", "W", "W", "", "", "W", "", "", "W", "W"},
-        {"W", "W", "", "", "W", "BR", "", "", "", "", "RT", "W", "", "", "W", "W"},
+        {"W", "W", "", "", "W", "RB", "", "", "", "", "TR", "W", "", "", "W", "W"},
         {"W", "W", "", "", "W", "W", "W", "W", "W", "W", "W", "W", "", "", "W", "W"},
         {"W", "W", "", "", "W", "W", "W", "", "", "W", "W", "W", "", "", "W", "W"},
         {"W", "W", "W", "", "", "", "", "", "", "", "", "", "", "W", "W", "W"}
