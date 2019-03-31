@@ -163,6 +163,11 @@ public class Map {
                 algorithm = new AStar(this.startNode);
                 ((AStar) algorithm).run();
                 break;
+            case "Greedy":
+                System.out.println("Using Greedy:");
+                algorithm = new Greedy(this.startNode);
+                ((Greedy) algorithm).run();
+                break;
             default:
                 System.out.println("Invalid algorithm");
                 return;

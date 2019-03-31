@@ -7,7 +7,9 @@ import utils.Utils;
 import java.util.ArrayList;
 import java.util.Objects;
 
-public class GameNode extends Node {
+import static java.lang.Math.abs;
+
+public class GameNode extends Node  {
 
     public enum Direction {UP, DOWN, LEFT, RIGHT}
 
@@ -129,5 +131,17 @@ public class GameNode extends Node {
     @Override
     public int hashCode() {
         return Objects.hash(robots);
+    }
+
+
+    private int distanceToTarget() {
+        ArrayList<Element> targets = this.map.getTargets();
+        for (Element target : targets) {
+            if (target.getColor().equals(this.move.getColor())) {
+                return abs(target.getX() - this.move.getX()) + abs(target.getY() - this.move.getY());
+            }
+        }
+
+        return 0;
     }
 }

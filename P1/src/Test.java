@@ -7,6 +7,7 @@ public class Test {
         m.runAlgo("BFS");
         m.runAlgo("IDDFS");
         m.runAlgo("A*");
+        m.runAlgo("Greedy");
 
        //Test precomputed moves
        /*for (int[][] targetMoves : m.getPrecomputedMoves()) {
