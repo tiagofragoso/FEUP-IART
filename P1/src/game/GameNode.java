@@ -1,6 +1,6 @@
 package game;
 
-import graph.Node;
+import algorithms.Node;
 import javafx.util.Pair;
 import utils.Utils;
 
@@ -9,7 +9,7 @@ import java.util.Objects;
 
 public class GameNode extends Node {
 
-    enum Direction {UP, DOWN, LEFT, RIGHT}
+    public enum Direction {UP, DOWN, LEFT, RIGHT}
 
     private Map map;
     private Element move;

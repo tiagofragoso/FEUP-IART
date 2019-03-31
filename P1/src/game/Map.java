@@ -1,9 +1,6 @@
 package game;
 
-import algorithms.AStar;
-import algorithms.Algorithm;
-import algorithms.BFS;
-import algorithms.DFS;
+import algorithms.*;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -15,6 +12,7 @@ public class Map {
     private ArrayList<Element> robots;
     private GameNode startNode;
     HashMap<Element.Color, Integer> colorMap = new HashMap<>();
+    private ArrayList<int[][]> precomputedMoves;
 
     public Map(String[][] matrix) {
         for (boolean[] row : walls)
@@ -69,11 +67,20 @@ public class Map {
                 this.robots.add(e);
         }
         this.targets = new ArrayList<>(Arrays.asList(targets));
+        int[][][] moves = new int[5][][];
+        for (Element t: this.targets) {
+            if (t != null)
+                moves[this.colorMap.get(t.getColor())] = BFS.precomputeMoves(this, new Node(t.getX(), t.getY(), 0));
+        }
+        precomputedMoves = new ArrayList<>(Arrays.asList(moves));
         this.startNode = new GameNode(this, this.robots, 0);
-
     }
 
-    boolean[][] getWalls() {
+    public ArrayList<int[][]> getPrecomputedMoves() {
+        return precomputedMoves;
+    }
+
+    public boolean[][] getWalls() {
         return walls;
     }
 
@@ -151,10 +158,10 @@ public class Map {
                 algorithm = new BFS(this.startNode);
                 ((BFS) algorithm).run();
                 break;
-            case "DFS":
+            case "IDDFS":
                 System.out.println("Using IDDFS:");
-                algorithm = new DFS(this.startNode);
-                ((DFS) algorithm).run(25);
+                algorithm = new IDDFS(this.startNode);
+                ((IDDFS) algorithm).run(25);
                 break;
             case "A*":
                 System.out.println("Using A*:");

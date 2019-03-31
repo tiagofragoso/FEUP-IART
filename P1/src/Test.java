@@ -2,10 +2,10 @@ import game.Map;
 
 public class Test {
     public void doSomething() {
-        Map m = new Map(Map.l8);
+        Map m = new Map(Map.l1);
         m.print(m.getRobots());
         m.runAlgo("BFS");
-        m.runAlgo("DFS");
+        m.runAlgo("IDDFS");
         m.runAlgo("A*");
     }
 

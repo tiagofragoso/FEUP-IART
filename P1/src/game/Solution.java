@@ -1,6 +1,6 @@
 package game;
 
-import graph.Node;
+import algorithms.Node;
 
 import java.util.ArrayList;
 

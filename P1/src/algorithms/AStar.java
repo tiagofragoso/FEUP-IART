@@ -4,12 +4,11 @@ package algorithms;
 import game.Element;
 import game.GameNode;
 import game.Map;
-import graph.Node;
 
 import java.util.*;
 
 public class AStar extends Algorithm {
-    
+
     public AStar(GameNode root) {
         super(root);
     }

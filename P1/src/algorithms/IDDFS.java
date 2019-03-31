@@ -1,15 +1,13 @@
 package algorithms;
 
 import game.GameNode;
-import graph.Graph;
-import graph.Node;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 
-public class DFS extends Algorithm {
+public class IDDFS extends Algorithm {
 
-    public DFS(GameNode root) {
+    public IDDFS(GameNode root) {
         super(root);
     }
 

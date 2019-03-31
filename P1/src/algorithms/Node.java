@@ -1,20 +1,28 @@
-package graph;
+package algorithms;
 
 import java.util.Objects;
 
 public class Node implements Comparable<Node>{
-    private String name;
     private double totalDistance = Double.POSITIVE_INFINITY;
     private int depth;
     private Node parent = null;
+    private int x;
+    private int y;
 
-    public Node(String name) {
-        this.name = name;
-    }
     public Node(int depth) { this.depth = depth; }
 
-    public String getName() {
-        return name;
+    public Node(int x, int y, int depth) {
+        this.x = x;
+        this.y = y;
+        this.depth = depth;
+    }
+
+    public int getX() {
+        return x;
+    }
+
+    public int getY() {
+        return y;
     }
 
     public double getTotalDistance() {
@@ -45,20 +53,16 @@ public class Node implements Comparable<Node>{
     }
 
     @Override
-    public String toString() {
-        return this.name;
-    }
-
-   /* @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Node node = (Node) o;
-        return Objects.equals(name, node.name);
-    }*/
+        return x == node.x &&
+                y == node.y;
+    }
 
-   /* @Override
+    @Override
     public int hashCode() {
-        return Objects.hash(name);
-    }*/
+        return Objects.hash(x, y);
+    }
 }

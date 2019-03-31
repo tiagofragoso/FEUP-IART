@@ -1,14 +1,10 @@
 package algorithms;
 
 import game.GameNode;
-import game.Solution;
-import graph.Edge;
-import graph.Graph;
-import graph.Node;
-import sun.swing.BakedArrayList;
 
-import java.lang.reflect.Array;
-import java.util.*;
+import java.util.HashSet;
+import java.util.LinkedList;
+import java.util.Queue;
 
 public class BFS extends Algorithm {
 
