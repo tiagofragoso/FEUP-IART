@@ -26,7 +26,7 @@ public class IDDFS extends Algorithm {
         ArrayList<GameNode> children = current.getChildren();
         GameNode sol;
         for (GameNode child: children) {
-            if (!(visited.getOrDefault(child, -1) >= depth)) {
+            if (!(visited.getOrDefault(child, -1) >= depth) && !(minMoves(child) > depth)) {
                 child.setParent(current);
                 if ((sol = dls(child, depth-1)) != null) {
                     return sol;
@@ -41,11 +41,21 @@ public class IDDFS extends Algorithm {
         GameNode sol;
         for (int depth = 1; depth <= maxDepth; depth++) {
             if (debug) System.out.println("Running depth=" + depth);
+            visited = new HashMap<>();
             if ((sol = dls(root, depth)) != null) {
                this.solution(sol);
                return;
             }
         }
         this.solution(null);
+    }
+
+    private int minMoves(GameNode n) {
+        int index = n.getMap().getColorMap().get(n.getMove().getColor());
+        int ret;
+        if (n.getMap().getTargets().get(index) != null)
+            return n.getMap().getPrecomputedMoves().get(index)[n.getMove().getY()][n.getMove().getX()];
+        else
+            return -1;
     }
 }

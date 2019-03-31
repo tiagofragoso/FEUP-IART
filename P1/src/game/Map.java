@@ -67,12 +67,7 @@ public class Map {
                 this.robots.add(e);
         }
         this.targets = new ArrayList<>(Arrays.asList(targets));
-        int[][][] moves = new int[5][][];
-        /*for (Element t: this.targets) {
-            if (t != null)
-                moves[this.colorMap.get(t.getColor())] = BFS.precomputeMoves(this, new Node(t.getX(), t.getY(), 0));
-        }*/
-        precomputedMoves = new ArrayList<>(Arrays.asList(moves));
+        this.precomputeMoves();
         this.startNode = new GameNode(this, this.robots, 0);
     }
 
@@ -175,6 +170,74 @@ public class Map {
 
         algorithm.printSolution();
 
+    }
+
+    private void precomputeMoves() {
+        int[][][] moves = new int[5][][];
+        for (Element t: this.targets) {
+            if (t != null)
+                moves[this.colorMap.get(t.getColor())] = precomputeMovesForTarget(new Node(t.getX(), t.getY(), 0));
+        }
+        precomputedMoves = new ArrayList<>(Arrays.asList(moves));
+    }
+
+    private int[][] precomputeMovesForTarget(Node target) {
+        boolean [][] status = new boolean[16][16];
+        for (boolean[] row : status) {
+            Arrays.fill(row, false);
+        }
+        int [][] moves = new int[16][16];
+        for (int[] row : moves) {
+            Arrays.fill(row, Integer.MAX_VALUE);
+        }
+        moves[target.getY()][target.getX()] = 0;
+        status[target.getY()][target.getX()] = true;
+        boolean done = false;
+        while (!done) {
+            done = true;
+            for (int y = 0; y < status.length; y++) {
+                for (int x = 0; x < status[y].length; x++) {
+                    if (!status[y][x])
+                        continue;
+                    status[y][x] = false;
+                    int depth = moves[y][x] + 1;
+                    for (GameNode.Direction d : GameNode.Direction.values()){
+                        int newX = x;
+                        int newY = y;
+                        int xOff = 0;
+                        int yOff= 0;
+                        switch (d) {
+                            case UP:
+                                yOff = -1;
+                                break;
+                            case DOWN:
+                                yOff = 1;
+                                break;
+                            case LEFT:
+                                xOff = -1;
+                                break;
+                            case RIGHT:
+                                xOff = 1;
+                                break;
+                        }
+                        newX += xOff;
+                        newY += yOff;
+                        try {
+                            while (!this.walls[newY][newX]) {
+                                if (moves[newY][newX] > depth) {
+                                    moves[newY][newX] = depth;
+                                    status[newY][newX] = true;
+                                    done = false;
+                                }
+                                newX += xOff;
+                                newY += yOff;
+                            }
+                        } catch (ArrayIndexOutOfBoundsException ignored) {}
+                    }
+                }
+            }
+        }
+        return moves;
     }
 
     public static String[][] l1 = new String[][]{

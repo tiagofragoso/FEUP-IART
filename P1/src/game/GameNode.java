@@ -68,7 +68,7 @@ public class GameNode extends Node {
         else return null;
     }
 
-    Element getMove() {
+    public Element getMove() {
         return move;
     }
 
