@@ -12,7 +12,7 @@ import java.util.*;
 
 public class BFS extends Algorithm {
 
-    private HashMap<GameNode, Integer> visited = new HashMap<>();
+    private HashSet<GameNode> visited = new HashSet<>();
 
     public BFS(GameNode root) {
         super(root);
@@ -24,10 +24,10 @@ public class BFS extends Algorithm {
         toVisit.add(this.root);
         while(!toVisit.isEmpty()) {
             GameNode node = toVisit.poll();
-            visited.put(node, node.getDepth());
+            visited.add(node);
             this.expandedNodes++;
             for (GameNode child: node.getChildren()) {
-                if (visited.getOrDefault(child, Integer.MAX_VALUE) >= child.getDepth()) {
+                if (!visited.contains(child)) {
                     child.setParent(node);
                     if (child.isSolution()) {
                         this.solution(child);
