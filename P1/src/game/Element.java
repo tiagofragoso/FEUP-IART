@@ -3,7 +3,7 @@ package game;
 import java.util.Objects;
 
 public class Element implements Cloneable {
-    enum Color {RED, BLUE, YELLOW, GREEN, SILVER}
+    public enum Color {RED, BLUE, YELLOW, GREEN, SILVER}
 
     private int x;
     private int y;

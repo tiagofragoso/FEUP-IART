@@ -68,8 +68,16 @@ public class GameNode extends Node {
         else return null;
     }
 
-    public Element getMove() {
+    Element getMove() {
         return move;
+    }
+
+    public Map getMap() {
+        return map;
+    }
+
+    public ArrayList<Element> getRobots() {
+        return robots;
     }
 
     public ArrayList<GameNode> getChildren() {

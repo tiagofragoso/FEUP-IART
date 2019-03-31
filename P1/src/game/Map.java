@@ -1,9 +1,9 @@
 package game;
 
+import algorithms.AStar;
 import algorithms.Algorithm;
 import algorithms.BFS;
 import algorithms.DFS;
-import graph.Node;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -14,6 +14,7 @@ public class Map {
     private ArrayList<Element> targets;
     private ArrayList<Element> robots;
     private GameNode startNode;
+    HashMap<Element.Color, Integer> colorMap = new HashMap<>();
 
     public Map(String[][] matrix) {
         for (boolean[] row : walls)
@@ -22,7 +23,6 @@ public class Map {
         Element[] robots = new Element[5];
         Element[] targets = new Element[5];
 
-        HashMap<Element.Color, Integer> colorMap = new HashMap<>();
 
         for (int i = 0; i < matrix.length; i++) {
             for (int j = 0; j < matrix[i].length; j++) {
@@ -73,7 +73,7 @@ public class Map {
 
     }
 
-    public boolean[][] getWalls() {
+    boolean[][] getWalls() {
         return walls;
     }
 
@@ -83,6 +83,10 @@ public class Map {
 
     public ArrayList<Element> getRobots() {
         return robots;
+    }
+
+    public HashMap<Element.Color, Integer> getColorMap() {
+        return colorMap;
     }
 
     public void print(ArrayList<Element> robots) {
@@ -151,6 +155,11 @@ public class Map {
                 System.out.println("Using IDDFS:");
                 algorithm = new DFS(this.startNode);
                 ((DFS) algorithm).run(25);
+                break;
+            case "A*":
+                System.out.println("Using A*:");
+                algorithm = new AStar(this.startNode);
+                ((AStar) algorithm).run();
                 break;
             default:
                 System.out.println("Invalid algorithm");

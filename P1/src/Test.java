@@ -6,6 +6,7 @@ public class Test {
         m.print(m.getRobots());
         m.runAlgo("BFS");
         m.runAlgo("DFS");
+        m.runAlgo("A*");
     }
 
     public static void main(String[] args) {
