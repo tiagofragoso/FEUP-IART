@@ -96,11 +96,7 @@ public class Map {
             for (int x = 0; x < this.walls[y].length; x++) {
                 if (this.walls[y][x])
                     System.out.print(" X  ");
-                else if (printRobots(x, y, robots)) {
-                    break;
-                } else if (printTargets(x, y)) {
-                    break;
-                } else {
+                else if (!(printRobots(x, y, robots) || printTargets(x, y))){
                     System.out.print("    ");
                 }
             }
