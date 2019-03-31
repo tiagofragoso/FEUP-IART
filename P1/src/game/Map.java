@@ -1,8 +1,9 @@
 package game;
 
+import algorithms.AStar;
+import algorithms.Algorithm;
 import algorithms.BFS;
 import algorithms.DFS;
-import graph.Node;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -12,6 +13,8 @@ public class Map {
     private boolean[][] walls = new boolean[16][16];
     private ArrayList<Element> targets;
     private ArrayList<Element> robots;
+    private GameNode startNode;
+    HashMap<Element.Color, Integer> colorMap = new HashMap<>();
 
     public Map(String[][] matrix) {
         for (boolean[] row : walls)
@@ -19,6 +22,7 @@ public class Map {
 
         Element[] robots = new Element[5];
         Element[] targets = new Element[5];
+
 
         for (int i = 0; i < matrix.length; i++) {
             for (int j = 0; j < matrix[i].length; j++) {
@@ -45,7 +49,6 @@ public class Map {
                             break;
                     }
                     Element e = new Element(j, i, c);
-                    HashMap<Element.Color, Integer> colorMap = new HashMap<>();
                     Integer index = colorMap.get(c);
                     if (index == null) {
                         index = colorMap.size();
@@ -66,11 +69,11 @@ public class Map {
                 this.robots.add(e);
         }
         this.targets = new ArrayList<>(Arrays.asList(targets));
-        System.out.println(this.robots);
-        System.out.println(this.targets);
+        this.startNode = new GameNode(this, this.robots, 0);
+
     }
 
-    public boolean[][] getWalls() {
+    boolean[][] getWalls() {
         return walls;
     }
 
@@ -80,6 +83,10 @@ public class Map {
 
     public ArrayList<Element> getRobots() {
         return robots;
+    }
+
+    public HashMap<Element.Color, Integer> getColorMap() {
+        return colorMap;
     }
 
     public void print(ArrayList<Element> robots) {
@@ -94,11 +101,7 @@ public class Map {
             for (int x = 0; x < this.walls[y].length; x++) {
                 if (this.walls[y][x])
                     System.out.print(" X  ");
-                else if (printRobots(x, y, robots)) {
-                    break;
-                } else if (printTargets(x, y)) {
-                    break;
-                } else {
+                else if (!(printRobots(x, y, robots) || printTargets(x, y))){
                     System.out.print("    ");
                 }
             }
@@ -115,6 +118,7 @@ public class Map {
         System.out.print("\n");
         System.out.println("Robots :"); //print robots
         //print targets
+
     }
 
     public boolean printRobots(int x, int y, ArrayList<Element> robots) {
@@ -140,26 +144,30 @@ public class Map {
     }
 
     public void runAlgo(String algo) {
-        ArrayList<Node> sol = null;
-        long start = System.currentTimeMillis();
+        Algorithm algorithm;
         switch (algo) {
             case "BFS":
                 System.out.println("Using BFS:");
-                sol = BFS.run(new GameNode(this, this.robots, 0));
+                algorithm = new BFS(this.startNode);
+                ((BFS) algorithm).run();
                 break;
             case "DFS":
                 System.out.println("Using IDDFS:");
-                sol = DFS.run(new GameNode(this, this.robots, 0), 50);
+                algorithm = new DFS(this.startNode);
+                ((DFS) algorithm).run(25);
                 break;
+            case "A*":
+                System.out.println("Using A*:");
+                algorithm = new AStar(this.startNode);
+                ((AStar) algorithm).run();
+                break;
+            default:
+                System.out.println("Invalid algorithm");
+                return;
         }
-        long end = System.currentTimeMillis();
-        if (sol != null) {
-            System.out.println(sol);
-            System.out.println("Move count: " + sol.size());
-            System.out.println("Elapsed time: " + (end - start) + "ms");
-        } else {
-            System.out.println("Couldn't find solution");
-        }
+
+        algorithm.printSolution();
+
     }
 
     public static String[][] l1 = new String[][]{

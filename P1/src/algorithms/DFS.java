@@ -5,38 +5,49 @@ import graph.Graph;
 import graph.Node;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class DFS extends Algorithm {
 
-    public DFS(Graph graph, String root) {
-        super(graph, root);
+    public DFS(GameNode root) {
+        super(root);
     }
 
-    private static ArrayList<Node> dls(GameNode current, int depth) {
+    private HashMap<GameNode, Integer> visited = new HashMap<>();
+
+    private GameNode dls(GameNode current, int depth) {
+        this.expandedNodes++;
         if (current.isSolution())
-            return Algorithm.solution(current);
+            return current;
 
         if (depth <= 0)
             return null;
 
+        visited.put(current, depth);
+
         ArrayList<GameNode> children = current.getChildren();
-        ArrayList<Node> sol;
+        GameNode sol;
         for (GameNode child: children) {
-            child.setParent(current);
-            if ((sol = dls(child, depth-1)) != null) {
-                return sol;
+            if (!(visited.getOrDefault(child, -1) >= depth)) {
+                child.setParent(current);
+                if ((sol = dls(child, depth-1)) != null) {
+                    return sol;
+                }
             }
         }
         return null;
     }
 
-    public static ArrayList<Node> run(GameNode root, int maxDepth) {
-        ArrayList<Node> sol;
-        for (int depth = 0; depth <= maxDepth; depth++) {
+    public void run(int maxDepth) {
+        this.startAlgo();
+        GameNode sol;
+        for (int depth = 1; depth <= maxDepth; depth++) {
+            if (debug) System.out.println("Running depth=" + depth);
             if ((sol = dls(root, depth)) != null) {
-                return sol;
+               this.solution(sol);
+               return;
             }
         }
-        return null;
+        this.solution(null);
     }
 }

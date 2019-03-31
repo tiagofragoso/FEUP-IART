@@ -5,20 +5,27 @@ import javafx.util.Pair;
 import utils.Utils;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 public class GameNode extends Node {
 
     enum Direction {UP, DOWN, LEFT, RIGHT}
 
     private Map map;
-    private int moveCount;
+    private Element move;
     private ArrayList<Element> robots;
 
-    public GameNode(Map map, ArrayList<Element> robots, int moveCount) {
-        super("nodename");
+    GameNode(Map map, ArrayList<Element> robots, int moveCount) {
+        super(moveCount);
         this.map = map;
         this.robots = robots;
-        this.moveCount = moveCount;
+    }
+
+    GameNode(Map map, ArrayList<Element> robots, int moveCount, Element move) {
+        super(moveCount);
+        this.map = map;
+        this.robots = robots;
+        this.move = move;
     }
 
     private Pair<Integer, Integer> move(Element robot, boolean[][] blockingElements, Direction d) {
@@ -61,6 +68,18 @@ public class GameNode extends Node {
         else return null;
     }
 
+    Element getMove() {
+        return move;
+    }
+
+    public Map getMap() {
+        return map;
+    }
+
+    public ArrayList<Element> getRobots() {
+        return robots;
+    }
+
     public ArrayList<GameNode> getChildren() {
         boolean[][] matrix = Utils.deepCloneBlocking(this.map.getWalls());
         for (Element r: robots) {
@@ -70,11 +89,12 @@ public class GameNode extends Node {
         for (int i = 0; i < robots.size(); i++) {
             for (Direction m: Direction.values()) {
                 Pair<Integer, Integer> newCoords;
-                if ((newCoords = this.move(robots.get(i), matrix, m)) != null) {
+                final Element robot = robots.get(i);
+                if ((newCoords = this.move(robot, matrix, m)) != null) {
                     ArrayList<Element> newRobots = Utils.deepCloneElements(this.robots);
                     newRobots.get(i).setX(newCoords.getKey());
                     newRobots.get(i).setY(newCoords.getValue());
-                    nodes.add(new GameNode(this.map, newRobots, this.moveCount + 1));
+                    nodes.add(new GameNode(this.map, newRobots, this.getDepth() + 1, new Element(newCoords.getKey(), newCoords.getValue(), robot.getColor())));
                 }
             }
         }
@@ -93,10 +113,21 @@ public class GameNode extends Node {
 
     @Override
     public String toString() {
-        StringBuilder builder = new StringBuilder();
-        for (Element e: this.robots) {
-            builder.append(e);
-        }
-        return builder.toString();
+        if (this.move != null)
+            return this.move.toString();
+        else return "";
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        GameNode gameNode = (GameNode) o;
+        return Objects.equals(robots, gameNode.robots);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(robots);
     }
 }

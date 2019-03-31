@@ -1,44 +1,42 @@
+
 package algorithms;
 
-import graph.Edge;
-import graph.Graph;
+import game.Element;
+import game.GameNode;
+import game.Map;
 import graph.Node;
 
-import java.lang.reflect.Array;
 import java.util.*;
 
 public class AStar extends Algorithm {
-
-    private Node destNode;
-
-    public AStar(Graph graph, String root) {
-        super(graph, root);
+    
+    public AStar(GameNode root) {
+        super(root);
     }
 
-    public ArrayList run(String dest) {
-        this.destNode = this.graph.getNode(dest);
-        Set<Node> solvedNodes = new LinkedHashSet<>();
-        Queue<Node> pQueue = new PriorityQueue<>();
+    public void run() {
+        this.startAlgo();
+        Set<GameNode> solvedNodes = new LinkedHashSet<>();
+        Queue<GameNode> pQueue = new PriorityQueue<>();
 
         this.root.setTotalDistance(0);
         pQueue.add(this.root);
 
         while (!pQueue.isEmpty()) {
-            Node current = pQueue.poll();
-
+            GameNode current = pQueue.poll();
+            this.expandedNodes++;
             if (!solvedNodes.contains(current)) {
                 solvedNodes.add(current);
 
-                if (current.equals(destNode)) {
-                    return solution();
+                if (current.isSolution()) {
+                    this.solution(current);
+                    return;
                 }
 
-                for (Edge e : this.graph.getEdges().get(current)) {
-                    Node child = e.getDest();
-
+                for (GameNode child : current.getChildren()) {
                     if (!solvedNodes.contains(child)) {
                         double distanceToDest = calculateDistance(child);
-                        double totalDistance = current.getTotalDistance() + e.getValue() + distanceToDest;
+                        double totalDistance = current.getTotalDistance() + 1 + distanceToDest;
                         if (totalDistance < child.getTotalDistance()) {
                             child.setTotalDistance(totalDistance);
                             child.setParent(current);
@@ -49,48 +47,23 @@ public class AStar extends Algorithm {
             }
         }
 
-        return new ArrayList();
+        this.solution(null);
     }
 
-    private ArrayList<Node> solution() {
-        Node current = this.destNode;
-        ArrayList<Node> sol = new ArrayList<>();
-        sol.add(current);
-        while (current != this.root) {
-            sol.add(0, current.getParent());
-            current = current.getParent();
+    private double calculateDistance(GameNode node){
+        double p = 0;
+        Map m = node.getMap();
+        HashMap<Element.Color, Integer> colorMap = m.getColorMap();
+        ArrayList<Element> robots = node.getRobots();
+        ArrayList<Element> targets = m.getTargets();
+        for (Element t: targets) {
+            if (t != null) {
+                Element robot = robots.get(colorMap.get(t.getColor()));
+                p += ( (robot.getX() != t.getX())? 1: 0) + ( (robot.getY() != t.getY())? 1: 0);
+            }
         }
-        return sol;
-    }
-
-    private static final HashMap<String, Double> testMap = new HashMap<String,Double>(){
-        {
-        put("Arad", 366.0);
-        put("Bucharest", 0.0);
-        put("Craiova", 160.0);
-        put("Dobreta", 242.0);
-        put("Eforie", 161.0);
-        put("Fagaras", 176.0);
-        put("Giurgiu", 77.0);
-        put("Hirsova", 151.0);
-        put("Iasi", 226.0);
-        put("Lugoj", 244.0);
-        put("Mehadia", 241.0);
-        put("Neamt", 234.0);
-        put("Oradea", 380.0);
-        put("Pitesti", 10.0);
-        put("Rimnicu Vilcea", 193.0);
-        put("Sibiu", 253.0);
-        put("Timisoara", 329.0);
-        put("Urziceni", 80.0);
-        put("Vaslui", 199.0);
-        put("Zerind", 374.0);
-        }
-
-    };
-
-    private double calculateDistance(Node node){
-        return testMap.get(node.getName());
+        return p;
     }
 
 }
+
