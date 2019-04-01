@@ -20,6 +20,8 @@ public class BFS extends Algorithm {
         toVisit.add(this.root);
         while(!toVisit.isEmpty()) {
             GameNode node = toVisit.poll();
+            if (visited.contains(node))
+                continue;
             visited.add(node);
             this.expandedNodes++;
             for (GameNode child: node.getChildren()) {
