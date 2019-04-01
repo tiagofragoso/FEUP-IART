@@ -8,10 +8,10 @@ public class Solution {
     private boolean solved;
     private ArrayList<Node> nodes;
     private int moveCount;
-    private long runTime;
+    private double runTime;
     private int expandedNodes;
 
-    public Solution(GameNode dest, long runTime, int expandedNodes) {
+    public Solution(GameNode dest, double runTime, int expandedNodes) {
         this.runTime = runTime;
         this.expandedNodes = expandedNodes;
         if (dest != null) {

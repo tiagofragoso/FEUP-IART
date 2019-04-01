@@ -7,11 +7,10 @@ import utils.Utils;
 import java.util.ArrayList;
 import java.util.Objects;
 
+import static game.Map.directionOffset;
 import static java.lang.Math.abs;
 
 public class GameNode extends Node  {
-
-    public enum Direction {UP, DOWN, LEFT, RIGHT}
 
     private Map map;
     private Element move;
@@ -30,28 +29,14 @@ public class GameNode extends Node  {
         this.move = move;
     }
 
-    private Pair<Integer, Integer> move(Element robot, boolean[][] blockingElements, Direction d) {
-        int xOff = 0;
-        int yOff = 0;
+    private Pair<Integer, Integer> move(Element robot, boolean[][] blockingElements, Map.Direction d) {
+        Pair<Integer, Integer> offset = directionOffset.get(d);
+        int xOff = offset.getKey();
+        int yOff = offset.getValue();
         int xIni = robot.getX();
         int yIni = robot.getY();
         int x = xIni;
         int y = yIni;
-
-        switch (d) {
-            case UP:
-                yOff = -1;
-                break;
-            case DOWN:
-                yOff = 1;
-                break;
-            case LEFT:
-                xOff = -1;
-                break;
-            case RIGHT:
-                xOff = 1;
-                break;
-        }
         do {
             x += xOff;
             y += yOff;
@@ -89,7 +74,7 @@ public class GameNode extends Node  {
         }
         ArrayList<GameNode> nodes = new ArrayList<>();
         for (int i = 0; i < robots.size(); i++) {
-            for (Direction m: Direction.values()) {
+            for (Map.Direction m: Map.Direction.values()) {
                 Pair<Integer, Integer> newCoords;
                 final Element robot = robots.get(i);
                 if ((newCoords = this.move(robot, matrix, m)) != null) {

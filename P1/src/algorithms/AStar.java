@@ -34,7 +34,7 @@ public class AStar extends Algorithm {
 
                 for (GameNode child : current.getChildren()) {
                     if (!solvedNodes.contains(child)) {
-                        double distanceToDest = calculateDistance(child);
+                        double distanceToDest = Algorithm.heuristic(child, 3);
                         double totalDistance = current.getTotalDistance() + 1 + distanceToDest;
                         if (totalDistance < child.getTotalDistance()) {
                             child.setTotalDistance(totalDistance);
@@ -48,21 +48,5 @@ public class AStar extends Algorithm {
 
         this.solution(null);
     }
-
-    public static double calculateDistance(GameNode node){
-        double p = 0;
-        Map m = node.getMap();
-        HashMap<Element.Color, Integer> colorMap = m.getColorMap();
-        ArrayList<Element> robots = node.getRobots();
-        ArrayList<Element> targets = m.getTargets();
-        for (Element t: targets) {
-            if (t != null) {
-                Element robot = robots.get(colorMap.get(t.getColor()));
-                p += ( (robot.getX() != t.getX())? 1: 0) + ( (robot.getY() != t.getY())? 1: 0);
-            }
-        }
-        return p;
-    }
-
 }
 

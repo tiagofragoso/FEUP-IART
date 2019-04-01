@@ -1,18 +1,33 @@
 package game;
 
 import algorithms.*;
+import javafx.util.Pair;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 
 public class Map {
+
+    public enum Direction {UP, DOWN, LEFT, RIGHT}
+
+    static HashMap<Direction, Pair<Integer, Integer>> directionOffset = new HashMap<Direction, Pair<Integer, Integer>>() {
+        {
+            put(Direction.UP, new Pair<>(0, -1));
+            put(Direction.DOWN, new Pair<>(0, 1));
+            put(Direction.LEFT, new Pair<>(-1, 0));
+            put(Direction.RIGHT, new Pair<>(1, 0));
+        }
+    };
+
     private boolean[][] walls = new boolean[16][16];
     private ArrayList<Element> targets;
     private ArrayList<Element> robots;
     private GameNode startNode;
-    HashMap<Element.Color, Integer> colorMap = new HashMap<>();
-    private ArrayList<int[][]> precomputedMoves;
+    private HashMap<Element.Color, Integer> colorMap = new HashMap<>();
+    private ArrayList<int[][]> h1Matrix;
+    private ArrayList<int[][]> h2Matrix;
+    private ArrayList<int[][]> h3Matrix;
 
     public Map(String[][] matrix) {
         for (boolean[] row : walls)
@@ -20,7 +35,6 @@ public class Map {
 
         Element[] robots = new Element[5];
         Element[] targets = new Element[5];
-
 
         for (int i = 0; i < matrix.length; i++) {
             for (int j = 0; j < matrix[i].length; j++) {
@@ -67,12 +81,19 @@ public class Map {
                 this.robots.add(e);
         }
         this.targets = new ArrayList<>(Arrays.asList(targets));
-        this.precomputeMoves();
+        this.preComputeHeuristics();
         this.startNode = new GameNode(this, this.robots, 0);
     }
 
-    public ArrayList<int[][]> getPrecomputedMoves() {
-        return precomputedMoves;
+    public ArrayList<int[][]> getHeuristicMatrix(int index) {
+        if (index == 1) {
+            return h1Matrix;
+        } else if (index == 2) {
+            return h2Matrix;
+        } else if (index == 3) {
+            return h3Matrix;
+        }
+        return null;
     }
 
     public boolean[][] getWalls() {
@@ -118,23 +139,19 @@ public class Map {
 
         }
         System.out.print("\n");
-        System.out.println("Robots :"); //print robots
-        //print targets
-
     }
 
-    public boolean printRobots(int x, int y, ArrayList<Element> robots) {
+    private boolean printRobots(int x, int y, ArrayList<Element> robots) {
         for (Element robot : robots) {
             if (robot != null && robot.getX() == x && robot.getY() == y) {
                 System.out.print(" R" + robot.getColorInitial() + " ");
                 return true;
             }
         }
-
         return false;
     }
 
-    public boolean printTargets(int x, int y) {
+    private boolean printTargets(int x, int y) {
         for (Element target : this.targets) {
             if (target != null && target.getX() == x && target.getY() == y ) {
                 System.out.print(" T" + target.getColorInitial() + " ");
@@ -177,16 +194,55 @@ public class Map {
 
     }
 
-    private void precomputeMoves() {
+    private void preComputeHeuristics() {
+        this.precomputeH1();
+        this.precomputeH3();
+    }
+
+    private void precomputeH1() {
         int[][][] moves = new int[5][][];
         for (Element t: this.targets) {
             if (t != null)
-                moves[this.colorMap.get(t.getColor())] = precomputeMovesForTarget(new Node(t.getX(), t.getY(), 0));
+                moves[this.colorMap.get(t.getColor())] = precomputeH1ForTarget(new Node(t.getX(), t.getY(), 0));
         }
-        precomputedMoves = new ArrayList<>(Arrays.asList(moves));
+        this.h1Matrix = new ArrayList<>(Arrays.asList(moves));;
     }
 
-    private int[][] precomputeMovesForTarget(Node target) {
+    private int[][] precomputeH1ForTarget(Node target) {
+        int [][] moves = new int[16][16];
+        for (int[] row : moves) {
+            Arrays.fill(row, 2);
+        }
+        moves[target.getY()][target.getX()] = 0;
+        for (Direction d : Direction.values()) {
+            int newX = target.getX();
+            int newY = target.getY();
+            Pair<Integer, Integer> offset = directionOffset.get(d);
+            int xOff = offset.getKey();
+            int yOff= offset.getValue();
+            newX += xOff;
+            newY += yOff;
+            try {
+                while (!this.walls[newY][newX]) {
+                    moves[newY][newX] = 1;
+                    newX += xOff;
+                    newY += yOff;
+                }
+            } catch (ArrayIndexOutOfBoundsException ignored) {}
+        }
+        return moves;
+    }
+
+    private void precomputeH3() {
+        int[][][] moves = new int[5][][];
+        for (Element t: this.targets) {
+            if (t != null)
+                moves[this.colorMap.get(t.getColor())] = precomputeH3ForTarget(new Node(t.getX(), t.getY(), 0));
+        }
+        this.h3Matrix = new ArrayList<>(Arrays.asList(moves));
+    }
+
+    private int[][] precomputeH3ForTarget(Node target) {
         boolean [][] status = new boolean[16][16];
         for (boolean[] row : status) {
             Arrays.fill(row, false);
@@ -206,25 +262,12 @@ public class Map {
                         continue;
                     status[y][x] = false;
                     int depth = moves[y][x] + 1;
-                    for (GameNode.Direction d : GameNode.Direction.values()){
+                    for (Direction d : Direction.values()) {
                         int newX = x;
                         int newY = y;
-                        int xOff = 0;
-                        int yOff= 0;
-                        switch (d) {
-                            case UP:
-                                yOff = -1;
-                                break;
-                            case DOWN:
-                                yOff = 1;
-                                break;
-                            case LEFT:
-                                xOff = -1;
-                                break;
-                            case RIGHT:
-                                xOff = 1;
-                                break;
-                        }
+                        Pair<Integer, Integer> offset = directionOffset.get(d);
+                        int xOff = offset.getKey();
+                        int yOff= offset.getValue();
                         newX += xOff;
                         newY += yOff;
                         try {

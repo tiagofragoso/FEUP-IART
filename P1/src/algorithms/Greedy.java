@@ -22,7 +22,7 @@ public class Greedy extends Algorithm {
         visited.add(current);
         ArrayList<GameNode> children = current.getChildren();
         for (GameNode child : children) {
-            double distanceToDest = AStar.calculateDistance(child);
+            double distanceToDest = Algorithm.heuristic(child, 3);
             child.setTotalDistance(distanceToDest);
         }
         Collections.sort(children);
@@ -36,7 +36,6 @@ public class Greedy extends Algorithm {
                 }
             }
         }
-
         return null;
     }
 
