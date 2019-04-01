@@ -1,0 +1,16 @@
+W,W,W,W,W,W,W,W,W,W,W,W,W,W,W,W
+W,W,W,W,W,W,W,W,W,W,W,W,W,W,W,W
+W,W,W,W,B,B,B,B,B,B,W,W,W,W,W,W
+W,W,W,W,B,W,B,B,B,B,W,W,W,W,W,W
+W,W,W,B,B,B,B,B,B,B,B,B,B,W,W,W
+W,W,W,B,B,B,B,B,B,B,B,B,B,B,W,W
+W,W,W,W,B,B,W,W,W,B,B,B,B,W,W,W
+W,W,W,W,B,B,W,W,W,B,B,B,B,W,W,W
+B,B,B,B,B,B,W,W,W,W,B,B,W,B,W,W
+B,B,B,W,B,B,B,W,B,B,B,B,B,TR,B,W
+B,RR,B,B,B,W,B,W,W,W,W,B,B,B,W,W
+W,B,B,W,B,B,B,B,B,B,B,B,B,W,W,W
+W,W,W,W,B,B,B,W,W,W,B,B,B,B,B,W
+W,W,W,W,B,B,B,W,W,W,B,B,B,B,B,W
+W,B,B,W,B,B,B,B,B,W,W,RB,B,B,B,W
+TB,B,B,B,B,B,B,W,B,B,B,B,B,W,W,W

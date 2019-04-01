@@ -1,29 +1,20 @@
 import game.Map;
 
+import java.io.FileNotFoundException;
+
 public class Test {
     private void doSomething() {
-        Map m = new Map(Map.l24);
-        m.print(m.getRobots());
+        try {
+            Map m = Map.fromFile("/Users/tiagofragoso/FEUP/3ANO/2SEM/iart/P1/maps/l8.txt");
+            m.print(m.getRobots());
+            m.runAlgo("A*");
+            m.runAlgo("Greedy");
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
         //m.runAlgo("BFS");
         //m.runAlgo("IDDFS");
-        m.runAlgo("A*");
-        m.runAlgo("Greedy");
 
-       //Test precomputed moves
-       /*for (int[][] targetMoves : m.getPrecomputedMoves()) {
-           if (targetMoves != null) {
-               for (int[] row : targetMoves) {
-                   for (int i : row) {
-                       if (i == Integer.MAX_VALUE)
-                           System.out.print("X");
-                       else
-                           System.out.print(i);
-                       System.out.print(" ");
-                   }
-                   System.out.print("\n");
-               }
-           }
-       }*/
     }
 
     public static void main(String[] args) {
