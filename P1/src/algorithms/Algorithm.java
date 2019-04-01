@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 
-public class Algorithm {
+public abstract class Algorithm implements Runnable{
     GameNode root;
     boolean debug = false;
     int expandedNodes = 0;

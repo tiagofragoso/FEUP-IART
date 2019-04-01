@@ -7,6 +7,8 @@ import java.util.HashMap;
 
 public class IDDFS extends Algorithm {
 
+    private static int MAX_DEPTH = 25;
+
     public IDDFS(GameNode root) {
         super(root);
     }
@@ -36,10 +38,10 @@ public class IDDFS extends Algorithm {
         return null;
     }
 
-    public void run(int maxDepth) {
+    public void run() {
         this.startAlgo();
         GameNode sol;
-        for (int depth = 1; depth <= maxDepth; depth++) {
+        for (int depth = 1; depth <= MAX_DEPTH; depth++) {
             if (debug) System.out.println("Running depth=" + depth);
             visited = new HashMap<>();
             if ((sol = dls(root, depth)) != null) {

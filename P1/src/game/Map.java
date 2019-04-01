@@ -5,9 +5,11 @@ import javafx.util.Pair;
 
 import java.io.*;
 import java.lang.reflect.Field;
+import java.time.Duration;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.concurrent.*;
 
 public class Map {
 
@@ -165,35 +167,46 @@ public class Map {
     }
 
     public void runAlgo(String algo) {
+        final Duration timeout = Duration.ofMinutes(1);
+        ExecutorService executor = Executors.newSingleThreadExecutor(r -> {
+            Thread t = Executors.defaultThreadFactory().newThread(r);
+            t.setDaemon(true);
+            return t;
+        });
+
         Algorithm algorithm;
         switch (algo) {
             case "BFS":
                 System.out.println("Using BFS:");
                 algorithm = new BFS(this.startNode);
-                ((BFS) algorithm).run();
                 break;
             case "IDDFS":
                 System.out.println("Using IDDFS:");
                 algorithm = new IDDFS(this.startNode);
-                ((IDDFS) algorithm).run(25);
                 break;
             case "A*":
                 System.out.println("Using A*:");
                 algorithm = new AStar(this.startNode);
-                ((AStar) algorithm).run();
                 break;
             case "Greedy":
                 System.out.println("Using Greedy:");
                 algorithm = new Greedy(this.startNode);
-                ((Greedy) algorithm).run();
                 break;
             default:
                 System.out.println("Invalid algorithm");
                 return;
         }
-
-        algorithm.printSolution();
-
+        final Future handler = executor.submit(algorithm);
+        try {
+            handler.get(timeout.toMillis(), TimeUnit.MILLISECONDS);
+            algorithm.printSolution();
+        } catch (TimeoutException e) {
+            handler.cancel(true);
+            System.out.println("Timeout");
+        } catch (InterruptedException | ExecutionException e) {
+            e.printStackTrace();
+        }
+        executor.shutdownNow();
     }
 
     private void preComputeHeuristics() {
