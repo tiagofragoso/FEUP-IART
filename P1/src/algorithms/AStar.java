@@ -1,16 +1,17 @@
 
 package algorithms;
 
-import game.Element;
 import game.GameNode;
-import game.Map;
 
 import java.util.*;
 
 public class AStar extends Algorithm {
 
-    public AStar(GameNode root) {
+    private int heuristic;
+
+    public AStar(GameNode root, int heuristic) {
         super(root);
+        this.heuristic = heuristic;
     }
 
     public void run() {
@@ -34,7 +35,7 @@ public class AStar extends Algorithm {
 
                 for (GameNode child : current.getChildren()) {
                     if (!solvedNodes.contains(child)) {
-                        double distanceToDest = Algorithm.heuristic(child, 3);
+                        double distanceToDest = Algorithm.heuristic(child, heuristic);
                         double totalDistance = current.getTotalDistance() + 1 + distanceToDest;
                         if (totalDistance < child.getTotalDistance()) {
                             child.setTotalDistance(totalDistance);

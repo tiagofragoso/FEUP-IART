@@ -10,8 +10,11 @@ public class Greedy extends Algorithm {
 
     private HashSet<GameNode> visited = new HashSet<>();
 
-    public Greedy(GameNode root) {
+    private int heuristic;
+
+    public Greedy(GameNode root, int heuristic) {
         super(root);
+        this.heuristic = heuristic;
     }
 
     private GameNode greedy(GameNode current) {
@@ -22,7 +25,7 @@ public class Greedy extends Algorithm {
         visited.add(current);
         ArrayList<GameNode> children = current.getChildren();
         for (GameNode child : children) {
-            double distanceToDest = Algorithm.heuristic(child, 3);
+            double distanceToDest = Algorithm.heuristic(child, heuristic);
             child.setTotalDistance(distanceToDest);
         }
         Collections.sort(children);

@@ -184,13 +184,21 @@ public class Map {
                 System.out.println("Using IDDFS:");
                 algorithm = new IDDFS(this.startNode);
                 break;
-            case "A*":
-                System.out.println("Using A*:");
-                algorithm = new AStar(this.startNode);
+            case "A* #1":
+                System.out.println("Using A* #1:");
+                algorithm = new AStar(this.startNode, 1);
                 break;
-            case "Greedy":
-                System.out.println("Using Greedy:");
-                algorithm = new Greedy(this.startNode);
+            case "A* #3":
+                System.out.println("Using A* #3:");
+                algorithm = new AStar(this.startNode, 3);
+                break;
+            case "Greedy #1":
+                System.out.println("Using Greedy #1:");
+                algorithm = new Greedy(this.startNode, 1);
+                break;
+            case "Greedy #3":
+                System.out.println("Using Greedy #3:");
+                algorithm = new Greedy(this.startNode, 3);
                 break;
             default:
                 System.out.println("Invalid algorithm");
@@ -207,6 +215,15 @@ public class Map {
             e.printStackTrace();
         }
         executor.shutdownNow();
+    }
+
+    public void runAllAlgos() {
+        this.runAlgo("BFS");
+        this.runAlgo("IDDFS");
+        this.runAlgo("A* #1");
+        this.runAlgo("A* #3");
+        this.runAlgo("Greedy #1");
+        this.runAlgo("Greedy #3");
     }
 
     private void preComputeHeuristics() {
