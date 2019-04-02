@@ -29,7 +29,6 @@ public class Map {
     private HashMap<Element.Color, Integer> colorMap = new HashMap<>();
     private ArrayList<int[][]> h1Matrix;
     private ArrayList<int[][]> h2Matrix;
-    private ArrayList<int[][]> h3Matrix;
 
     private Map(String[][] matrix) {
         for (boolean[] row : walls)
@@ -118,8 +117,6 @@ public class Map {
             return h1Matrix;
         } else if (index == 2) {
             return h2Matrix;
-        } else if (index == 3) {
-            return h3Matrix;
         }
         return null;
     }
@@ -216,17 +213,13 @@ public class Map {
                 System.out.println("A* #2");
                 algorithm = new AStar(this.startNode, 2);
                 break;
-            case "A* #3":
-                System.out.println("A* #3");
-                algorithm = new AStar(this.startNode, 3);
-                break;
             case "Greedy #1":
                 System.out.println("Greedy #1");
                 algorithm = new Greedy(this.startNode, 1);
                 break;
-            case "Greedy #3":
-                System.out.println("Greedy #3");
-                algorithm = new Greedy(this.startNode, 3);
+            case "Greedy #2":
+                System.out.println("Greedy #2");
+                algorithm = new Greedy(this.startNode, 2);
                 break;
             default:
                 System.out.println("Invalid algorithm");
@@ -252,15 +245,13 @@ public class Map {
         this.runAlgo("IDDFS");
         this.runAlgo("A* #1");
         this.runAlgo("A* #2");
-        this.runAlgo("A* #3");
         this.runAlgo("Greedy #1");
-        this.runAlgo("Greedy #3");
+        this.runAlgo("Greedy #2");
     }
 
     private void preomputeHeuristics() {
         this.precomputeH1();
         this.precomputeH2();
-        this.precomputeH3();
     }
 
     private void precomputeH1() {
@@ -309,89 +300,6 @@ public class Map {
     }
 
     private int[][] precomputeH2ForTarget(Node target) {
-        int[][] moves = new int[16][16];
-        for (int[] row : moves) {
-            Arrays.fill(row, Integer.MAX_VALUE);
-        }
-        moves[target.getY()][target.getX()] = 0;
-
-        for (int y = 0; y < moves.length; y++) {
-            for (int x = 0; x < moves[y].length; x++) {
-                if (this.walls[y][x])
-                    continue;
-                int newX = x;
-                int newY = y;
-                int value = 0;
-                Direction d = null;
-                if (!(x == target.getX() && y == target.getY())) {
-                    if ((x == target.getX() && y != target.getY()) || (x != target.getX() && y == target.getY())) {
-                        if (x == target.getX() && y != target.getY()) {
-                            if (target.getY() < y)
-                                d = Direction.UP;
-                            else
-                                d = Direction.DOWN;
-                        } else if (x != target.getX() && y == target.getY()) {
-                            if (target.getX() < x)
-                                d = Direction.LEFT;
-                            else
-                                d = Direction.RIGHT;
-                        }
-                        boolean wall = hasWall(target, newX, newY, d);
-                        value = wall? 3 : 1;
-
-                    } else {
-                        if (target.getY() < y)
-                            d = Direction.UP;
-                        else
-                            d = Direction.DOWN;
-
-                        boolean wallY = hasWall(target, newX, newY, d);
-
-                        if (target.getX() < x)
-                            d = Direction.LEFT;
-                        else
-                            d = Direction.RIGHT;
-
-                        newX = x;
-                        newY = y;
-
-                        boolean wallX = hasWall(target, newX, newY, d);
-
-                        value = (wallX && wallY) ? 3 : 2;
-                    }
-                }
-                moves[y][x] = value;
-            }
-        }
-        return moves;
-    }
-
-    private boolean hasWall(Node target, int newX, int newY, Direction d) {
-        Pair<Integer, Integer> offset = directionOffset.get(d);
-        int xOff = offset.getKey();
-        int yOff = offset.getValue();
-        boolean wall = false;
-        while (newX != target.getX() || newY != target.getY()) {
-            try {
-                if (this.walls[newY][newX])
-                    wall = true;
-            } catch (ArrayIndexOutOfBoundsException e) { break; }
-            newX += xOff;
-            newY += yOff;
-        }
-        return wall;
-    }
-
-    private void precomputeH3() {
-        int[][][] moves = new int[5][][];
-        for (Element t : this.targets) {
-            if (t != null)
-                moves[this.colorMap.get(t.getColor())] = precomputeH3ForTarget(new Node(t.getX(), t.getY(), 0));
-        }
-        this.h3Matrix = new ArrayList<>(Arrays.asList(moves));
-    }
-
-    private int[][] precomputeH3ForTarget(Node target) {
         boolean[][] status = new boolean[16][16];
         for (boolean[] row : status) {
             Arrays.fill(row, false);
