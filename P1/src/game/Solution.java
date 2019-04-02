@@ -33,7 +33,7 @@ public class Solution {
         return this.nodes;
     }
 
-    public String getPrint(){
+    public String getInfo(){
         String returnStatement = "";
         if (solved) {
             for (Node n: nodes) {
@@ -44,19 +44,6 @@ public class Solution {
                 }
             }
             returnStatement = returnStatement + ("\nMove count: " + this.moveCount + "\n");
-        } else {
-            returnStatement = returnStatement + ("Couldn't find solution" + "\n");
-        }
-        returnStatement = returnStatement + ("Runtime: " + this.runTime + "ms" + "\n");
-        returnStatement = returnStatement + ("Expanded nodes: " + this.expandedNodes + "\n");
-
-        return returnStatement;
-    }
-
-    public String getTextAreaInfo() {
-        String returnStatement = "";
-        if (solved) {
-            returnStatement = returnStatement + ("Move count: " + this.moveCount + "\n");
         } else {
             returnStatement = returnStatement + ("Couldn't find solution" + "\n");
         }
@@ -90,7 +77,7 @@ public class Solution {
     }
 
     public void print() {
-        System.out.print(this.getPrint());
+        System.out.print(this.getInfo());
     }
 
 
