@@ -27,11 +27,11 @@ public class MainGUI extends JPanel {
     private JButton btnSkip;
     private JButton btnRunAlgo;
     private Map map;
-    private Map originalMap;
     private Solution solution;
     private int currNode;
-    private JTextArea infoLabel;
-    private JScrollPane scroll;
+    private JLabel infoMoveLabel;
+    private JLabel infoRuntimeLabel;
+    private JLabel infoExpandedNodesLabel;
 
     public static void main(String[] args) {
         SwingUtilities.invokeLater(new Runnable() {
@@ -97,18 +97,17 @@ public class MainGUI extends JPanel {
         btnRunAlgo.setBackground(Color.white);
         menuWindow.getContentPane().add(btnRunAlgo);
 
-        infoLabel = new JTextArea();
-        infoLabel.setBounds(700, 400, 200, 100);
-        infoLabel.setEditable(false);
-        //scroll = new JScrollPane(infoLabel);
-        //scroll.setBounds(700, 400, 200, 100);
+        infoMoveLabel = new JLabel();
+        infoMoveLabel.setBounds(700, 400, 200, 30);
+        menuWindow.getContentPane().add(infoMoveLabel);
 
-        infoLabel.setLineWrap(true);
-       //scroll.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
-        //scroll.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
-        menuWindow.getContentPane().add(infoLabel);
-        //menuWindow.getContentPane().add(scroll);
+        infoRuntimeLabel = new JLabel();
+        infoRuntimeLabel.setBounds(700, 430, 200, 30);
+        menuWindow.getContentPane().add(infoRuntimeLabel);
 
+        infoExpandedNodesLabel = new JLabel();
+        infoExpandedNodesLabel.setBounds(700, 460, 200, 30);
+        menuWindow.getContentPane().add(infoExpandedNodesLabel);
     }
 
     private class skipEvent implements ActionListener {
@@ -132,7 +131,9 @@ public class MainGUI extends JPanel {
             btnNextMove.setEnabled(true);
             btnSkip.setEnabled(true);
 
-            infoLabel.setText(solution.getTextAreaInfo());
+            infoMoveLabel.setText(solution.getMoveCount());
+            infoRuntimeLabel.setText(solution.getRuntime());
+            infoExpandedNodesLabel.setText(solution.getExpandedNodes());
 
             gameBox.setRobots(((GameNode) solution.getNodes().get(currNode)).getRobots());
 
@@ -194,10 +195,8 @@ public class MainGUI extends JPanel {
             if (returnValue == JFileChooser.APPROVE_OPTION) {
                 File selectedFile = jfc.getSelectedFile();
                 map = null;
-                originalMap = null;
                 try {
                     map = Map.fromFile(selectedFile.getAbsolutePath());
-                    originalMap = map;
                 } catch (FileNotFoundException e) {
                     e.printStackTrace();
                 }

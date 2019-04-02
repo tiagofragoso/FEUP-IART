@@ -56,13 +56,36 @@ public class Solution {
     public String getTextAreaInfo() {
         String returnStatement = "";
         if (solved) {
-            returnStatement = returnStatement + ("\nMove count: " + this.moveCount + "\n");
+            returnStatement = returnStatement + ("Move count: " + this.moveCount + "\n");
         } else {
             returnStatement = returnStatement + ("Couldn't find solution" + "\n");
         }
         returnStatement = returnStatement + ("Runtime: " + this.runTime + "ms" + "\n");
         returnStatement = returnStatement + ("Expanded nodes: " + this.expandedNodes + "\n");
 
+        return returnStatement;
+    }
+
+    public String getMoveCount() {
+        String returnStatement = "";
+
+        if (solved) {
+            returnStatement = returnStatement + ("Move count: " + this.moveCount + "\n");
+        } else {
+            returnStatement = returnStatement + ("Couldn't find solution" + "\n");
+        }
+        return returnStatement;
+    }
+
+    public String getRuntime() {
+        String returnStatement = "";
+        returnStatement = returnStatement + ("Runtime: " + this.runTime + "ms" + "\n");
+        return returnStatement;
+    }
+
+    public String getExpandedNodes() {
+        String returnStatement = "";
+        returnStatement = returnStatement + ("Expanded nodes: " + this.expandedNodes + "\n");
         return returnStatement;
     }
 
