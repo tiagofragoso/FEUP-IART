@@ -17,6 +17,7 @@ public class AStar extends Algorithm {
     public void run() {
         this.startAlgo();
         Set<GameNode> solvedNodes = new LinkedHashSet<>();
+        HashMap<GameNode, GameNode> pQueueNodes = new HashMap<>();
         Queue<GameNode> pQueue = new PriorityQueue<>();
 
         this.root.setTotalDistance(0);
@@ -37,11 +38,22 @@ public class AStar extends Algorithm {
                     if (!solvedNodes.contains(child)) {
                         double distanceToDest = Algorithm.heuristic(child, heuristic);
                         double totalDistance = current.getTotalDistance() + 1 + distanceToDest;
-                        if (totalDistance < child.getTotalDistance()) {
+                        GameNode childRef;
+                        if ((childRef = pQueueNodes.get(child)) != null) {
+                            if (totalDistance < childRef.getTotalDistance()) {
+                                System.out.println(childRef.getTotalDistance());
+                                childRef.setTotalDistance(totalDistance);
+                                childRef.setParent(current);
+                                pQueue.remove(childRef);
+                                pQueue.add(childRef);
+                            }
+                        } else {
                             child.setTotalDistance(totalDistance);
                             child.setParent(current);
+                            pQueueNodes.put(child, child);
                             pQueue.add(child);
                         }
+
                     }
                 }
             }

@@ -28,7 +28,7 @@ public class Test {
     }
 
     public static void main(String[] args) {
-        (new Map(Map.l23)).runAlgo("Greedy #3");
+        (new Map(Map.l16)).runAllAlgos();
     }
 }
 
