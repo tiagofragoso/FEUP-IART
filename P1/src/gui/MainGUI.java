@@ -113,23 +113,15 @@ public class MainGUI extends JPanel {
 
     private class skipEvent implements ActionListener {
         public void actionPerformed(ActionEvent arg0) {
-            for(int j = currNode ; j < solution.getNodes().size(); j++) {
-                String[] parts = solution.getNodes().get(currNode).toString().split(":");
-                for (int i=0; i < map.getRobots().size(); i++){
-                    if (map.getRobots().get(i).getColor().name().equals(parts[0])){
-                        String letter = parts[1];
-                        String number = parts[1].substring(1);
-                        map.getRobots().get(i).setX((int)letter.charAt(0) - (int)'A');
-                        map.getRobots().get(i).setY(Integer.parseInt(number) - 1);
-                        gameBox.setMap(map);
-                        gameBox.repaint();
-                        gameBox.setFocusable(true);
-                        gameBox.requestFocusInWindow();
-                    }
-                }
-                currNode++;
-            }
+            gameBox.setRobots(((GameNode) solution.getNodes().get(solution.getNodes().size()-1)).getRobots());
+            currNode = solution.getNodes().size()-1;
 
+            gameBox.repaint();
+            gameBox.setFocusable(true);
+            gameBox.requestFocusInWindow();
+
+            btnNextMove.setEnabled(false);
+            btnSkip.setEnabled(false);
         }
     }
 
