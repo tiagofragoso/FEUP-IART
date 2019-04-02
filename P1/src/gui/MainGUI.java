@@ -50,7 +50,7 @@ public class MainGUI extends JPanel {
     private void initializeFrame() {
         //frame
         menuWindow = new JFrame("Labyrinth Robots");
-        menuWindow.setBounds(100, 100, 1000, 800);
+        menuWindow.setBounds(100, 100, 1000, 700);
         menuWindow.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         menuWindow.setVisible(true);
         menuWindow.setResizable(false);
@@ -73,7 +73,7 @@ public class MainGUI extends JPanel {
 
         btnExitGUI = new JButton("Exit Game");
         btnExitGUI.addActionListener(new exitGameEvent());
-        btnExitGUI.setBounds(700, 600, 200, 50);
+        btnExitGUI.setBounds(700, 562, 200, 50);
         btnExitGUI.setBackground(Color.white);
         menuWindow.getContentPane().add(btnExitGUI);
 
