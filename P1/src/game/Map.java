@@ -100,7 +100,7 @@ public class Map {
         return null;
     }
 
-    boolean[][] getWalls() {
+    public boolean[][] getWalls() {
         return walls;
     }
 

@@ -67,7 +67,7 @@ public class Element implements Cloneable {
         return this.color.toString() + ":" + (char) (this.x + 'A') + (this.y + 1);
     }
 
-    char getColorInitial() {
+    public char getColorInitial() {
         return this.color.toString().charAt(0);
     }
 
