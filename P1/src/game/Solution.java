@@ -33,21 +33,29 @@ public class Solution {
         return this.nodes;
     }
 
-    public void print() {
+    public String getPrint(){
+        String returnStatement = "";
         if (solved) {
             for (Node n: nodes) {
                 if (((GameNode) n).getMove() != null) {
-                    System.out.print("->" + n.toString());
+                    returnStatement = returnStatement + ("->" + n.toString());
                 } else {
-                    System.out.print("Start");
+                    returnStatement = returnStatement + ("Start");
                 }
             }
-            System.out.println("\nMove count: " + this.moveCount);
+            returnStatement = returnStatement + ("\nMove count: " + this.moveCount + "\n");
         } else {
-            System.out.println("Couldn't find solution");
+            returnStatement = returnStatement + ("Couldn't find solution" + "\n");
         }
-        System.out.println("Runtime: " + this.runTime + "ms");
-        System.out.println("Expanded nodes: " + this.expandedNodes);
+        returnStatement = returnStatement + ("Runtime: " + this.runTime + "ms" + "\n");
+        returnStatement = returnStatement + ("Expanded nodes: " + this.expandedNodes + "\n");
+
+        return returnStatement;
+
+    }
+
+    public void print() {
+        System.out.print(this.getPrint());
     }
 
 

@@ -1,5 +1,7 @@
 package gui;
 
+import algorithms.Node;
+import game.GameNode;
 import game.Map;
 import game.Solution;
 
@@ -25,8 +27,11 @@ public class MainGUI extends JPanel {
     private JButton btnSkip;
     private JButton btnRunAlgo;
     private Map map;
+    private Map originalMap;
     private Solution solution;
     private int currNode;
+    private JTextArea infoLabel;
+    private JScrollPane scroll;
 
     public static void main(String[] args) {
         SwingUtilities.invokeLater(new Runnable() {
@@ -55,46 +60,54 @@ public class MainGUI extends JPanel {
 
         String[] algorithms = new String[] {"A* #1", "A* #3", "BFS" , "IDDFS", "Greedy #1", "Greedy #3"};
         algoComboBox = new JComboBox<>(algorithms);
-        algoComboBox.setFont(new Font("Impact", Font.PLAIN, 12));
         algoComboBox.setBounds(700, 50, 200, 50);
         algoComboBox.setBackground(Color.white);
         menuWindow.getContentPane().setLayout(null);
         menuWindow.getContentPane().add(algoComboBox);
 
         btnChooseFile = new JButton("Choose Level");
-        btnChooseFile.setFont(new Font("Impact", Font.PLAIN, 12));
         btnChooseFile.addActionListener(new chooseLevelEvent());
         btnChooseFile.setBounds(700, 200, 200, 50);
         btnChooseFile.setBackground(Color.white);
         menuWindow.getContentPane().add(btnChooseFile);
 
         btnExitGUI = new JButton("Exit Game");
-        btnExitGUI.setFont(new Font("Impact", Font.PLAIN, 12));
         btnExitGUI.addActionListener(new exitGameEvent());
         btnExitGUI.setBounds(700, 600, 200, 50);
         btnExitGUI.setBackground(Color.white);
         menuWindow.getContentPane().add(btnExitGUI);
 
         btnNextMove = new JButton("Next Move");
-        btnNextMove.setFont(new Font("Impact", Font.PLAIN, 12));
         btnNextMove.setBounds(100, 50, 100, 25);
         btnNextMove.addActionListener(new nextMoveEvent());
         btnNextMove.setBackground(Color.white);
+        btnNextMove.setEnabled(false);
         menuWindow.getContentPane().add(btnNextMove);
 
         btnSkip = new JButton("Skip");
-        btnSkip.setFont(new Font("Impact", Font.PLAIN, 12));
         btnSkip.addActionListener(new skipEvent());
         btnSkip.setBounds(250, 50, 100, 25);
+        btnSkip.setEnabled(false);
         btnSkip.setBackground(Color.white);
         menuWindow.getContentPane().add(btnSkip);
 
         btnRunAlgo = new JButton("Run Algorithm");
-        btnRunAlgo.setFont(new Font("Impact", Font.PLAIN, 12));
         btnRunAlgo.addActionListener(new runAlgoEvent());
         btnRunAlgo.setBounds(700, 300, 200, 50);
         btnRunAlgo.setBackground(Color.white);
         menuWindow.getContentPane().add(btnRunAlgo);
+
+        infoLabel = new JTextArea();
+        infoLabel.setBounds(700, 400, 200, 100);
+        infoLabel.setEditable(false);
+        //scroll = new JScrollPane(infoLabel);
+        //scroll.setBounds(700, 400, 200, 100);
+
+        infoLabel.setLineWrap(true);
+       //scroll.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
+        //scroll.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
+        menuWindow.getContentPane().add(infoLabel);
+        //menuWindow.getContentPane().add(scroll);
 
     }
 
@@ -124,6 +137,12 @@ public class MainGUI extends JPanel {
         public void actionPerformed(ActionEvent arg0) {
             solution = map.runAlgo(algoComboBox.getSelectedItem().toString());
             currNode = 1;
+            map = originalMap;
+            btnNextMove.setEnabled(true);
+            btnSkip.setEnabled(true);
+
+            infoLabel.setText(solution.getPrint());
+
         }
     }
 
@@ -143,6 +162,11 @@ public class MainGUI extends JPanel {
                 }
             }
             currNode++;
+
+            if(solution.getNodes().size() == currNode){
+                btnNextMove.setEnabled(false);
+                btnSkip.setEnabled(false);
+            }
         }
     }
 
@@ -155,7 +179,6 @@ public class MainGUI extends JPanel {
     }
 
     private class chooseLevelEvent implements ActionListener {
-
         public void actionPerformed(ActionEvent arg) {
             JFileChooser jfc = new JFileChooser(FileSystemView.getFileSystemView().getHomeDirectory());
 
@@ -163,15 +186,17 @@ public class MainGUI extends JPanel {
                     ".txt files", "txt");
 
             jfc.setFileFilter(filter);
+            jfc.setCurrentDirectory(new File("."));
 
             int returnValue = jfc.showOpenDialog(null);
-            // int returnValue = jfc.showSaveDialog(null);
 
             if (returnValue == JFileChooser.APPROVE_OPTION) {
                 File selectedFile = jfc.getSelectedFile();
                 map = null;
+                originalMap = null;
                 try {
                     map = Map.fromFile(selectedFile.getAbsolutePath());
+                    originalMap = map;
                 } catch (FileNotFoundException e) {
                     e.printStackTrace();
                 }
