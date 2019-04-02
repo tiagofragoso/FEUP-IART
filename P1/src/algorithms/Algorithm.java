@@ -15,7 +15,6 @@ public abstract class Algorithm implements Runnable{
     int expandedNodes = 0;
     private Solution sol;
     private long startTime;
-    private long endTime;
 
     Algorithm(GameNode root) { this.root = root; }
 
@@ -24,7 +23,7 @@ public abstract class Algorithm implements Runnable{
     }
 
     void solution(GameNode dest) {
-        this.endTime = System.nanoTime();
+        long endTime = System.nanoTime();
         double runTime = Math.floor( (endTime - startTime)/1000000 );
         this.sol = new Solution(dest, runTime, expandedNodes);
     }
