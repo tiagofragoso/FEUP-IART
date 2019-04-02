@@ -33,6 +33,10 @@ public abstract class Algorithm implements Runnable{
         this.sol.print();
     }
 
+    public Solution getSolution() {
+        return sol;
+    }
+
     static double heuristic(GameNode node, int i) {
         double p = 0;
         Map m = node.getMap();

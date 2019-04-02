@@ -45,12 +45,12 @@ public class Greedy extends Algorithm {
     public void run() {
         this.startAlgo();
         GameNode sol;
-
-        if ((sol = greedy(root)) != null) {
-            this.solution(sol);
-            return;
-        }
-
+        try {
+            if ((sol = greedy(root)) != null) {
+                this.solution(sol);
+                return;
+            }
+        } catch (StackOverflowError ignored) {}
         this.solution(null);
     }
 
