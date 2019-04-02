@@ -198,31 +198,31 @@ public class Map {
         Algorithm algorithm;
         switch (algo) {
             case "BFS":
-                System.out.println("BFS");
+                System.out.print("BFS");
                 algorithm = new BFS(this.startNode);
                 break;
             case "IDDFS":
-                System.out.println("IDDFS");
+                System.out.print("IDDFS");
                 algorithm = new IDDFS(this.startNode);
                 break;
             case "A* #1":
-                System.out.println("A* #1");
+                System.out.print("A* #1");
                 algorithm = new AStar(this.startNode, 1);
                 break;
             case "A* #2":
-                System.out.println("A* #2");
+                System.out.print("A* #2");
                 algorithm = new AStar(this.startNode, 2);
                 break;
             case "Greedy #1":
-                System.out.println("Greedy #1");
+                System.out.print("Greedy #1");
                 algorithm = new Greedy(this.startNode, 1);
                 break;
             case "Greedy #2":
-                System.out.println("Greedy #2");
+                System.out.print("Greedy #2");
                 algorithm = new Greedy(this.startNode, 2);
                 break;
             default:
-                System.out.println("Invalid algorithm");
+                System.out.print("Invalid algorithm");
                 return null;
         }
         final Future handler = executor.submit(algorithm);
@@ -232,7 +232,7 @@ public class Map {
             return algorithm.getSolution();
         } catch (TimeoutException e) {
             handler.cancel(true);
-            System.out.println("Timeout");
+            System.out.println(";Timeout");
         } catch (InterruptedException | ExecutionException e) {
             e.printStackTrace();
         }

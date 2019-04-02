@@ -33,64 +33,36 @@ public class Solution {
         return this.nodes;
     }
 
-    public String getPrint(){
-        String returnStatement = "";
+    public String getResultString() {
         if (solved) {
-            for (Node n: nodes) {
-                if (((GameNode) n).getMove() != null) {
-                    returnStatement = returnStatement + ("->" + n.toString());
-                } else {
-                    returnStatement = returnStatement + ("Start");
-                }
-            }
-            returnStatement = returnStatement + ("\nMove count: " + this.moveCount + "\n");
+            return "Move count: " + this.moveCount + "\n";
         } else {
-            returnStatement = returnStatement + ("Couldn't find solution" + "\n");
+            return "Couldn't find solution" + "\n";
         }
-        returnStatement = returnStatement + ("Runtime: " + this.runTime + "ms" + "\n");
-        returnStatement = returnStatement + ("Expanded nodes: " + this.expandedNodes + "\n");
-
-        return returnStatement;
     }
 
-    public String getTextAreaInfo() {
-        String returnStatement = "";
-        if (solved) {
-            returnStatement = returnStatement + ("Move count: " + this.moveCount + "\n");
-        } else {
-            returnStatement = returnStatement + ("Couldn't find solution" + "\n");
-        }
-        returnStatement = returnStatement + ("Runtime: " + this.runTime + "ms" + "\n");
-        returnStatement = returnStatement + ("Expanded nodes: " + this.expandedNodes + "\n");
-
-        return returnStatement;
+    public String getRuntimeString() {
+        return "Runtime: " + this.runTime + "ms" + "\n";
     }
 
-    public String getMoveCount() {
-        String returnStatement = "";
-
-        if (solved) {
-            returnStatement = returnStatement + ("Move count: " + this.moveCount + "\n");
-        } else {
-            returnStatement = returnStatement + ("Couldn't find solution" + "\n");
-        }
-        return returnStatement;
-    }
-
-    public String getRuntime() {
-        String returnStatement = "";
-        returnStatement = returnStatement + ("Runtime: " + this.runTime + "ms" + "\n");
-        return returnStatement;
-    }
-
-    public String getExpandedNodes() {
-        String returnStatement = "";
-        returnStatement = returnStatement + ("Expanded nodes: " + this.expandedNodes + "\n");
-        return returnStatement;
+    public String getExpandedNodesString() {
+        return "Expanded nodes: " + this.expandedNodes + "\n";
     }
 
     public void print() {
-        System.out.print(this.getPrint());
+        if (solved) {
+            /*for (Node n: nodes) {
+                if (((GameNode) n).getMove() != null) {
+                    System.out.print("->" + n.toString());
+                } else {
+                    System.out.print("Start");
+                }
+            }*/
+            System.out.print(";" + this.moveCount + ";");
+        } else {
+            System.out.print(";Couldn't find solution;");
+        }
+        System.out.println(this.runTime + "ms;" + this.expandedNodes);
     }
 
 

@@ -134,9 +134,9 @@ public class MainGUI extends JPanel {
             algoRunningStateLabel.setText("Running Algorithm");
             try {
                 solution = map.runAlgo(algoComboBox.getSelectedItem().toString());
-                infoMoveLabel.setText(solution.getMoveCount());
-                infoRuntimeLabel.setText(solution.getRuntime());
-                infoExpandedNodesLabel.setText(solution.getExpandedNodes());
+                infoMoveLabel.setText(solution.getResultString());
+                infoRuntimeLabel.setText(solution.getRuntimeString());
+                infoExpandedNodesLabel.setText(solution.getExpandedNodesString());
                 currNode = 0;
                 btnNextMove.setEnabled(true);
                 btnSkip.setEnabled(true);
