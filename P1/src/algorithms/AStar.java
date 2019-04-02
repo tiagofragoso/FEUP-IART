@@ -27,6 +27,9 @@ public class AStar extends Algorithm {
 
         while (!pQueue.isEmpty()) {
             GameNode current = pQueue.poll();
+            if (solvedNodes.getOrDefault(current, Double.MAX_VALUE) < current.getTotalDistance())
+                continue;
+
             this.expandedNodes++;
 
             if (current.isSolution()) {
@@ -41,7 +44,6 @@ public class AStar extends Algorithm {
                     child.setTotalDistance(totalDistance);
                     child.setParent(current);
                     solvedNodes.put(child, totalDistance);
-                    pQueue.remove(child);
                     pQueue.add(child);
                 }
             }

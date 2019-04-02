@@ -42,7 +42,6 @@ public class IDDFS extends Algorithm {
         this.startAlgo();
         GameNode sol;
         for (int depth = 1; depth <= MAX_DEPTH; depth++) {
-            if (debug) System.out.println("Running depth=" + depth);
             if ((sol = dls(root, depth)) != null) {
                this.solution(sol);
                return;
