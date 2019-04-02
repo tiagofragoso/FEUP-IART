@@ -15,11 +15,6 @@ public class Element implements Cloneable {
         this.color = color;
     }
 
-    Element(int x, int y) {
-        this.x = x;
-        this.y = y;
-    }
-
     public int getX() {
         return x;
     }
@@ -32,19 +27,19 @@ public class Element implements Cloneable {
         return color;
     }
 
-    public void setColor(Color color) {
+    private void setColor(Color color) {
         this.color = color;
     }
 
-    public void setX(int x) {
+    void setX(int x) {
         this.x = x;
     }
 
-    public void setY(int y) {
+    void setY(int y) {
         this.y = y;
     }
 
-    public boolean sameLocationAs(Element e) {
+    boolean sameLocationAs(Element e) {
         return (this.x == e.getX() && this.y == e.y);
     }
 

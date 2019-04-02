@@ -25,13 +25,13 @@ public class Map {
     private boolean[][] walls = new boolean[16][16];
     private ArrayList<Element> targets;
     private ArrayList<Element> robots;
-    public GameNode startNode;
+    private GameNode startNode;
     private HashMap<Element.Color, Integer> colorMap = new HashMap<>();
     private ArrayList<int[][]> h1Matrix;
     private ArrayList<int[][]> h2Matrix;
     private ArrayList<int[][]> h3Matrix;
 
-    public Map(String[][] matrix) {
+    private Map(String[][] matrix) {
         for (boolean[] row : walls)
             Arrays.fill(row, false);
 

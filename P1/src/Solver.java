@@ -1,4 +1,3 @@
-import algorithms.AStar;
 import game.Map;
 
 import java.io.FileNotFoundException;

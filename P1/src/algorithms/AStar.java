@@ -17,7 +17,6 @@ public class AStar extends Algorithm {
     public void run() {
         this.startAlgo();
         Set<GameNode> solvedNodes = new LinkedHashSet<>();
-        HashMap<GameNode, GameNode> pQueueNodes = new HashMap<>();
         Queue<GameNode> pQueue = new PriorityQueue<>();
 
         this.root.setTotalDistance(0);

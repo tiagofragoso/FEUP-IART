@@ -24,20 +24,4 @@ public class Utils {
         return clone;
     }
 
-    public static void writeLevelToFile(String[][] level, String name) {
-        try {
-            BufferedWriter writer = new BufferedWriter(new FileWriter("/Users/tiagofragoso/FEUP/3ANO/2SEM/iart/P1/maps/" + name, true));
-            for (int i = 0; i < level.length; i++) {
-                for (int j = 0; j < level[i].length; j++) {
-                    writer.append(level[i][j]);
-                    if (j != level[i].length - 1)
-                        writer.append(',');
-                    else if (i != level.length - 1)
-                        writer.append('\n');
-                }
-            }
-            writer.close();
-        } catch (IOException ignored) {}
-    }
-
 }

@@ -22,7 +22,7 @@ public class GameNode extends Node  {
         this.robots = robots;
     }
 
-    GameNode(Map map, ArrayList<Element> robots, int moveCount, Element move) {
+    private GameNode(Map map, ArrayList<Element> robots, int moveCount, Element move) {
         super(moveCount);
         this.map = map;
         this.robots = robots;
@@ -118,15 +118,4 @@ public class GameNode extends Node  {
         return Objects.hash(robots);
     }
 
-
-    private int distanceToTarget() {
-        ArrayList<Element> targets = this.map.getTargets();
-        for (Element target : targets) {
-            if (target.getColor().equals(this.move.getColor())) {
-                return abs(target.getX() - this.move.getX()) + abs(target.getY() - this.move.getY());
-            }
-        }
-
-        return 0;
-    }
 }
