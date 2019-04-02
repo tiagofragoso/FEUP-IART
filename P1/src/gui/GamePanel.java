@@ -8,14 +8,16 @@ import java.awt.*;
 import java.awt.image.*;
 import javax.imageio.*;
 import java.io.*;
+import java.util.ArrayList;
 import java.util.HashMap;
 
 public class GamePanel extends JPanel {
 
     private HashMap<String, BufferedImage> loadedImages;
     private Map map;
+    private ArrayList<Element> robots;
 
-    GamePanel(Map map) {
+    GamePanel(Map map, ArrayList<Element> robots) {
         loadedImages = new HashMap<>();
         try {
             loadedImages.put("empty", ImageIO.read(new File("images/white.png")));
@@ -33,17 +35,17 @@ public class GamePanel extends JPanel {
             e.printStackTrace();
         }
         this.map = map;
+        this.robots = robots;
     }
 
     public void setMap(Map map){
         this.map = map;
     }
+    public void setRobots(ArrayList<Element> robots){this.robots = robots;}
 
     @Override
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
-
-        //Character[][] map = game.getLevel().getPlayMap();
 
         drawImagePanel(g);
     }
@@ -70,7 +72,7 @@ public class GamePanel extends JPanel {
 
     private boolean checkRobots(Graphics g,int x,int y) {
 
-        for (Element robot : map.getRobots()) {
+        for (Element robot : robots) {
             if (robot != null && robot.getX() == x && robot.getY() == y) {
                 switch(robot.getColorInitial()) {
                     case('R'):

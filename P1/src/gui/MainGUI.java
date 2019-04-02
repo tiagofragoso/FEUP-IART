@@ -137,7 +137,6 @@ public class MainGUI extends JPanel {
         public void actionPerformed(ActionEvent arg0) {
             solution = map.runAlgo(algoComboBox.getSelectedItem().toString());
             currNode = 1;
-            map = originalMap;
             btnNextMove.setEnabled(true);
             btnSkip.setEnabled(true);
 
@@ -148,19 +147,23 @@ public class MainGUI extends JPanel {
 
     private class nextMoveEvent implements ActionListener {
         public void actionPerformed(ActionEvent arg0) {
-            String[] parts = solution.getNodes().get(currNode).toString().split(":");
+            /*String[] parts = solution.getNodes().get(currNode).toString().split(":");
             for (int i=0; i < map.getRobots().size(); i++){
                 if (map.getRobots().get(i).getColor().name().equals(parts[0])){
                         String letter = parts[1];
                         String number = parts[1].substring(1);
                         map.getRobots().get(i).setX((int)letter.charAt(0) - (int)'A');
                         map.getRobots().get(i).setY(Integer.parseInt(number) - 1);
-                        gameBox.setMap(map);
+                        */
+                        //gameBox.setMap(map);
+            gameBox.setRobots(((GameNode) solution.getNodes().get(currNode)).getRobots());
                         gameBox.repaint();
                         gameBox.setFocusable(true);
                         gameBox.requestFocusInWindow();
-                }
-            }
+
+                    //}
+                //}
+            //}
             currNode++;
 
             if(solution.getNodes().size() == currNode){
@@ -202,7 +205,7 @@ public class MainGUI extends JPanel {
                 }
 
                 //game box
-                gameBox = new GamePanel(map);
+                gameBox = new GamePanel(map, map.getRobots());
                 gameBox.setBounds(50, 100, 512, 512);
                 gameBox.setVisible(true);
                 gameBox.setFocusable(false);
