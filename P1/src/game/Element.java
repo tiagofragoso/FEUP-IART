@@ -31,11 +31,11 @@ public class Element implements Cloneable {
         this.color = color;
     }
 
-    void setX(int x) {
+    public void setX(int x) {
         this.x = x;
     }
 
-    void setY(int y) {
+    public void setY(int y) {
         this.y = y;
     }
 

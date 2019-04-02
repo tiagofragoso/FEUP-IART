@@ -16,8 +16,9 @@ public class Solver {
        }
     }
 
-    public static void main(String[] args) {
-
+    public static void main(String[] args) throws FileNotFoundException {
+        Map m = Map.fromFile("/Users/tiagofragoso/FEUP/3ANO/2SEM/iart/P1/maps/l16.txt");
+        m.runAllAlgos();
     }
 }
 
