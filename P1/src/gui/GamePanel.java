@@ -35,6 +35,10 @@ public class GamePanel extends JPanel {
         this.map = map;
     }
 
+    public void setMap(Map map){
+        this.map = map;
+    }
+
     @Override
     public void paintComponent(Graphics g) {
         super.paintComponent(g);

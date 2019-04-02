@@ -382,7 +382,7 @@ public class Map {
             {"W", "W", "W", "B", "B", "B", "B", "B", "B", "B", "B", "B", "B", "B", "B", "W"},
             {"B", "B", "W", "B", "B", "B", "W", "W", "W", "W", "W", "B", "B", "B", "B", "W"},
             {"B", "B", "W", "W", "W", "W", "W", "W", "W", "W", "W", "W", "W", "W", "W", "W"},
-            {"B", "B", "B", "B", "B", "B", "B", "B", "B", "B", "B", "B", "B", "B", "B", "RR"}
+            {"B", "B", "B", "B", "B", "B", "B", "B", "B", "B", "B", "B", "B", "B", "B", "B"}
     };
 
     public static String[][] l3 = new String[][]{

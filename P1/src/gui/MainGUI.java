@@ -1,6 +1,7 @@
 package gui;
 
 import game.Map;
+import game.Solution;
 
 import javax.swing.*;
 import javax.swing.filechooser.FileNameExtensionFilter;
@@ -24,6 +25,8 @@ public class MainGUI extends JPanel {
     private JButton btnSkip;
     private JButton btnRunAlgo;
     private Map map;
+    private Solution solution;
+    private int currNode;
 
     public static void main(String[] args) {
         SwingUtilities.invokeLater(new Runnable() {
@@ -75,27 +78,71 @@ public class MainGUI extends JPanel {
         btnNextMove = new JButton("Next Move");
         btnNextMove.setFont(new Font("Impact", Font.PLAIN, 12));
         btnNextMove.setBounds(100, 50, 100, 25);
+        btnNextMove.addActionListener(new nextMoveEvent());
         btnNextMove.setBackground(Color.white);
         menuWindow.getContentPane().add(btnNextMove);
 
         btnSkip = new JButton("Skip");
         btnSkip.setFont(new Font("Impact", Font.PLAIN, 12));
+        btnSkip.addActionListener(new skipEvent());
         btnSkip.setBounds(250, 50, 100, 25);
         btnSkip.setBackground(Color.white);
         menuWindow.getContentPane().add(btnSkip);
 
         btnRunAlgo = new JButton("Run Algorithm");
         btnRunAlgo.setFont(new Font("Impact", Font.PLAIN, 12));
-        btnExitGUI.addActionListener(new runAlgoEvent());
-        btnRunAlgo.setBounds(700, 200, 100, 25);
+        btnRunAlgo.addActionListener(new runAlgoEvent());
+        btnRunAlgo.setBounds(700, 300, 200, 50);
         btnRunAlgo.setBackground(Color.white);
         menuWindow.getContentPane().add(btnRunAlgo);
 
     }
 
+    private class skipEvent implements ActionListener {
+        public void actionPerformed(ActionEvent arg0) {
+            for(int j = currNode ; j < solution.getNodes().size(); j++) {
+                String[] parts = solution.getNodes().get(currNode).toString().split(":");
+                for (int i=0; i < map.getRobots().size(); i++){
+                    if (map.getRobots().get(i).getColor().name().equals(parts[0])){
+                        String letter = parts[1];
+                        String number = parts[1].substring(1);
+                        map.getRobots().get(i).setX((int)letter.charAt(0) - (int)'A');
+                        map.getRobots().get(i).setY(Integer.parseInt(number) - 1);
+                        gameBox.setMap(map);
+                        gameBox.repaint();
+                        gameBox.setFocusable(true);
+                        gameBox.requestFocusInWindow();
+                    }
+                }
+                currNode++;
+            }
+
+        }
+    }
+
     private class runAlgoEvent implements ActionListener {
         public void actionPerformed(ActionEvent arg0) {
-            map.runAlgo(algoComboBox.getSelectedItem().toString());
+            solution = map.runAlgo(algoComboBox.getSelectedItem().toString());
+            currNode = 1;
+        }
+    }
+
+    private class nextMoveEvent implements ActionListener {
+        public void actionPerformed(ActionEvent arg0) {
+            String[] parts = solution.getNodes().get(currNode).toString().split(":");
+            for (int i=0; i < map.getRobots().size(); i++){
+                if (map.getRobots().get(i).getColor().name().equals(parts[0])){
+                        String letter = parts[1];
+                        String number = parts[1].substring(1);
+                        map.getRobots().get(i).setX((int)letter.charAt(0) - (int)'A');
+                        map.getRobots().get(i).setY(Integer.parseInt(number) - 1);
+                        gameBox.setMap(map);
+                        gameBox.repaint();
+                        gameBox.setFocusable(true);
+                        gameBox.requestFocusInWindow();
+                }
+            }
+            currNode++;
         }
     }
 
