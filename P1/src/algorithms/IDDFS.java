@@ -53,7 +53,7 @@ public class IDDFS extends Algorithm {
     private int minMoves(GameNode n) {
         int index = n.getMap().getColorMap().get(n.getMove().getColor());
         if (n.getMap().getTargets().get(index) != null)
-            return n.getMap().getHeuristicMatrix(3).get(index)[n.getMove().getY()][n.getMove().getX()];
+            return n.getMap().getHeuristicMatrix(2).get(index)[n.getMove().getY()][n.getMove().getX()];
         else
             return -1;
     }

@@ -19,7 +19,7 @@ public class Solver {
     public static void main(String[] args) throws FileNotFoundException {
         Map m = Map.fromFile("/Users/tiagofragoso/FEUP/3ANO/2SEM/iart/P1/maps/l24.txt");
         //m.runAlgo("A* #1");
-        m.runAlgo("A* #3");
+        m.runAlgo("A* #2");
         //runAllTests();
     }
 }
