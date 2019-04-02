@@ -58,7 +58,7 @@ public class MainGUI extends JPanel {
 
     private void initializeElements() {
 
-        String[] algorithms = new String[] {"A* #1", "A* #3", "BFS" , "IDDFS", "Greedy #1", "Greedy #3"};
+        String[] algorithms = new String[] {"A* #1", "A* #2", "A* #3", "BFS" , "IDDFS", "Greedy #1", "Greedy #2", "Greedy #3"};
         algoComboBox = new JComboBox<>(algorithms);
         algoComboBox.setBounds(700, 50, 200, 50);
         algoComboBox.setBackground(Color.white);
