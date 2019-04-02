@@ -39,7 +39,7 @@ public class AStar extends Algorithm {
 
             for (GameNode child : current.getChildren()) {
                 double distanceToDest = Algorithm.heuristic(child, heuristic);
-                double totalDistance = current.getTotalDistance() + 1 + distanceToDest;
+                double totalDistance = child.getDepth() + distanceToDest;
                 if (solvedNodes.getOrDefault(child, Double.MAX_VALUE) > totalDistance) {
                     child.setTotalDistance(totalDistance);
                     child.setParent(current);
