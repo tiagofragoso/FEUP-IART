@@ -4,7 +4,6 @@ import algorithms.*;
 import javafx.util.Pair;
 
 import java.io.*;
-import java.lang.reflect.Field;
 import java.time.Duration;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -85,7 +84,7 @@ public class Map {
                 this.robots.add(e);
         }
         this.targets = new ArrayList<>(Arrays.asList(targets));
-        this.preComputeHeuristics();
+        this.preomputeHeuristics();
         this.startNode = new GameNode(this, this.robots, 0);
     }
 
@@ -166,7 +165,7 @@ public class Map {
         return false;
     }
 
-    public void runAlgo(String algo) {
+    public Solution runAlgo(String algo) {
         final Duration timeout = Duration.ofMinutes(1);
         ExecutorService executor = Executors.newSingleThreadExecutor(r -> {
             Thread t = Executors.defaultThreadFactory().newThread(r);
@@ -177,37 +176,38 @@ public class Map {
         Algorithm algorithm;
         switch (algo) {
             case "BFS":
-                System.out.println("Using BFS:");
+                System.out.println("BFS");
                 algorithm = new BFS(this.startNode);
                 break;
             case "IDDFS":
-                System.out.println("Using IDDFS:");
+                System.out.println("IDDFS");
                 algorithm = new IDDFS(this.startNode);
                 break;
             case "A* #1":
-                System.out.println("Using A* #1:");
+                System.out.println("A* #1");
                 algorithm = new AStar(this.startNode, 1);
                 break;
             case "A* #3":
-                System.out.println("Using A* #3:");
+                System.out.println("A* #3");
                 algorithm = new AStar(this.startNode, 3);
                 break;
             case "Greedy #1":
-                System.out.println("Using Greedy #1:");
+                System.out.println("Greedy #1");
                 algorithm = new Greedy(this.startNode, 1);
                 break;
             case "Greedy #3":
-                System.out.println("Using Greedy #3:");
+                System.out.println("Greedy #3");
                 algorithm = new Greedy(this.startNode, 3);
                 break;
             default:
                 System.out.println("Invalid algorithm");
-                return;
+                return null;
         }
         final Future handler = executor.submit(algorithm);
         try {
             handler.get(timeout.toMillis(), TimeUnit.MILLISECONDS);
             algorithm.printSolution();
+            return algorithm.getSolution();
         } catch (TimeoutException e) {
             handler.cancel(true);
             System.out.println("Timeout");
@@ -215,6 +215,7 @@ public class Map {
             e.printStackTrace();
         }
         executor.shutdownNow();
+        return null;
     }
 
     public void runAllAlgos() {
@@ -226,7 +227,7 @@ public class Map {
         this.runAlgo("Greedy #3");
     }
 
-    private void preComputeHeuristics() {
+    private void preomputeHeuristics() {
         this.precomputeH1();
         this.precomputeH3();
     }
@@ -331,7 +332,6 @@ public class Map {
                 matrix[i++] = parseLine(line);
             }
             bufferedReader.close();
-            System.out.println(Arrays.deepToString(matrix));
             return new Map(matrix);
         } catch(IOException ex) {
             System.out.println("Error reading file '" + fileName + "'");
@@ -346,23 +346,6 @@ public class Map {
         }
         return tokens;
     }
-
-    public static void writeLevelToFile(String[][] level, String name) {
-        try {
-            BufferedWriter writer = new BufferedWriter(new FileWriter("/Users/tiagofragoso/FEUP/3ANO/2SEM/iart/P1/maps/" + name, true));
-            for (int i = 0; i < level.length; i++) {
-                for (int j = 0; j < level[i].length; j++) {
-                    writer.append(level[i][j]);
-                    if (j != level[i].length - 1)
-                        writer.append(',');
-                    else if (i != level.length - 1)
-                        writer.append('\n');
-                }
-            }
-            writer.close();
-        } catch (IOException ignored) {}
-    }
-
 
     public static String[][] l1 = new String[][]{
             {"W", "W", "W", "W", "W", "W", "W", "W", "W", "W", "W", "W", "W", "W", "W", "W"},
