@@ -37,7 +37,7 @@ public class AStar extends Algorithm {
                 for (GameNode child : current.getChildren()) {
                     if (!solvedNodes.contains(child)) {
                         double distanceToDest = Algorithm.heuristic(child, heuristic);
-                        double totalDistance = current.getTotalDistance() + 1 + distanceToDest;
+                        double totalDistance = current.getTotalDistance() + 10 + distanceToDest;
                         GameNode childRef;
                         if ((childRef = pQueueNodes.get(child)) != null) {
                             if (totalDistance < childRef.getTotalDistance()) {

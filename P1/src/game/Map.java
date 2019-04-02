@@ -681,13 +681,13 @@ public class Map {
     }
 
     public void runAllAlgos() {
-        //this.runAlgo("BFS");
-        //this.runAlgo("IDDFS");
-        //this.runAlgo("A* #1");
-        //this.runAlgo("A* #2");
+        this.runAlgo("BFS");
+        this.runAlgo("IDDFS");
+        this.runAlgo("A* #1");
+        this.runAlgo("A* #2");
         this.runAlgo("A* #3");
-        //this.runAlgo("Greedy #1");
-        //this.runAlgo("Greedy #3");
+        this.runAlgo("Greedy #1");
+        this.runAlgo("Greedy #3");
     }
 
     private void preomputeHeuristics() {

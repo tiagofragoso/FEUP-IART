@@ -16,7 +16,7 @@ public class Test {
 
     private static void runAllTests() {
         String base = "/Users/tiagofragoso/FEUP/3ANO/2SEM/iart/P1/maps/l";
-       for (int i = 1; i <= 4; i++) {
+       for (int i = 1; i <= 24; i++) {
            try {
                Map map = Map.fromFile(base + i + ".txt");
                System.out.println("\nLevel " + i +"");
@@ -28,7 +28,21 @@ public class Test {
     }
 
     public static void main(String[] args) {
-        (new Map(Map.l16)).runAllAlgos();
+        /*for (int[][] tgt : m.getHeuristicMatrix(3)) {
+            if (tgt == null) continue;
+            System.out.print("\n");
+            for (int[] row : tgt) {
+                for (int i : row) {
+                    if (i == Integer.MAX_VALUE)
+                        System.out.print("X  ");
+                    else System.out.print(i + "  ");
+                }
+                System.out.print("\n");
+            }
+        }*/
+        (new Map(Map.l24)).runAlgo("A* #1");
+        (new Map(Map.l24)).runAlgo("A* #2");
+        (new Map(Map.l24)).runAlgo("A* #3");
     }
 }
 
