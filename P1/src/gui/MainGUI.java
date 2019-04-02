@@ -141,7 +141,7 @@ public class MainGUI extends JPanel {
             btnNextMove.setEnabled(true);
             btnSkip.setEnabled(true);
 
-            infoLabel.setText(solution.getPrint());
+            infoLabel.setText(solution.getTextAreaInfo());
 
         }
     }

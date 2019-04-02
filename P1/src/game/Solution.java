@@ -51,7 +51,19 @@ public class Solution {
         returnStatement = returnStatement + ("Expanded nodes: " + this.expandedNodes + "\n");
 
         return returnStatement;
+    }
 
+    public String getTextAreaInfo() {
+        String returnStatement = "";
+        if (solved) {
+            returnStatement = returnStatement + ("\nMove count: " + this.moveCount + "\n");
+        } else {
+            returnStatement = returnStatement + ("Couldn't find solution" + "\n");
+        }
+        returnStatement = returnStatement + ("Runtime: " + this.runTime + "ms" + "\n");
+        returnStatement = returnStatement + ("Expanded nodes: " + this.expandedNodes + "\n");
+
+        return returnStatement;
     }
 
     public void print() {
