@@ -32,6 +32,7 @@ public class MainGUI extends JPanel {
     private JLabel infoMoveLabel;
     private JLabel infoRuntimeLabel;
     private JLabel infoExpandedNodesLabel;
+    private JLabel algoRunningStateLabel;
 
     public static void main(String[] args) {
         SwingUtilities.invokeLater(new Runnable() {
@@ -108,6 +109,10 @@ public class MainGUI extends JPanel {
         infoExpandedNodesLabel = new JLabel();
         infoExpandedNodesLabel.setBounds(700, 460, 200, 30);
         menuWindow.getContentPane().add(infoExpandedNodesLabel);
+
+        algoRunningStateLabel = new JLabel();
+        algoRunningStateLabel.setBounds(700, 360, 200, 30);
+        menuWindow.getContentPane().add(algoRunningStateLabel);
     }
 
     private class skipEvent implements ActionListener {
@@ -126,16 +131,23 @@ public class MainGUI extends JPanel {
 
     private class runAlgoEvent implements ActionListener {
         public void actionPerformed(ActionEvent arg0) {
-            solution = map.runAlgo(algoComboBox.getSelectedItem().toString());
-            currNode = 0;
-            btnNextMove.setEnabled(true);
-            btnSkip.setEnabled(true);
+            algoRunningStateLabel.setText("Running Algorithm");
+            try {
+                solution = map.runAlgo(algoComboBox.getSelectedItem().toString());
+                infoMoveLabel.setText(solution.getMoveCount());
+                infoRuntimeLabel.setText(solution.getRuntime());
+                infoExpandedNodesLabel.setText(solution.getExpandedNodes());
+                currNode = 0;
+                btnNextMove.setEnabled(true);
+                btnSkip.setEnabled(true);
 
-            infoMoveLabel.setText(solution.getMoveCount());
-            infoRuntimeLabel.setText(solution.getRuntime());
-            infoExpandedNodesLabel.setText(solution.getExpandedNodes());
+                algoRunningStateLabel.setText("Solved");
 
-            gameBox.setRobots(((GameNode) solution.getNodes().get(currNode)).getRobots());
+                gameBox.setRobots(((GameNode) solution.getNodes().get(currNode)).getRobots());
+
+            } catch (NullPointerException e){
+                algoRunningStateLabel.setText("Timeout");
+            }
 
             gameBox.repaint();
             gameBox.setFocusable(true);
