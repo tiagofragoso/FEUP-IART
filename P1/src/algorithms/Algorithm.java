@@ -11,7 +11,6 @@ import java.util.HashMap;
 
 public abstract class Algorithm implements Runnable{
     GameNode root;
-    boolean debug = false;
     int expandedNodes = 0;
     private Solution sol;
     private long startTime;
