@@ -172,7 +172,7 @@ public class MainGUI extends JPanel {
                 //}
             //}
 
-            if(solution.getNodes().size() == currNode){
+            if(solution.getNodes().size() == currNode+1){
                 btnNextMove.setEnabled(false);
                 btnSkip.setEnabled(false);
             }
