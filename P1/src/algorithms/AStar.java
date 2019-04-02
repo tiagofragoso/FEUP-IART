@@ -37,23 +37,12 @@ public class AStar extends Algorithm {
                 for (GameNode child : current.getChildren()) {
                     if (!solvedNodes.contains(child)) {
                         double distanceToDest = Algorithm.heuristic(child, heuristic);
-                        double totalDistance = current.getTotalDistance() + 10 + distanceToDest;
-                        GameNode childRef;
-                        if ((childRef = pQueueNodes.get(child)) != null) {
-                            if (totalDistance < childRef.getTotalDistance()) {
-                                System.out.println(childRef.getTotalDistance());
-                                childRef.setTotalDistance(totalDistance);
-                                childRef.setParent(current);
-                                pQueue.remove(childRef);
-                                pQueue.add(childRef);
-                            }
-                        } else {
+                        double totalDistance = current.getTotalDistance() + 1 + distanceToDest;
+                        if (totalDistance < child.getTotalDistance()) {
                             child.setTotalDistance(totalDistance);
                             child.setParent(current);
-                            pQueueNodes.put(child, child);
                             pQueue.add(child);
                         }
-
                     }
                 }
             }
