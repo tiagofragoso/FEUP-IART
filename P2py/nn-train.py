@@ -24,7 +24,7 @@ embedding_dim = 128
 
 model = keras.Sequential([
   layers.Embedding(len(word_index), embedding_dim, input_length=max_len),
-  #layers.Conv1D(20, 3, padding='valid', activation='relu', strides=1),
+  layers.Conv1D(20, 3, padding='valid', activation='relu', strides=1),
   layers.GlobalAveragePooling1D(),
   layers.Dense(16, activation='relu'),
   layers.Dense(1, activation='sigmoid')
